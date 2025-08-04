@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && pnpx prisma generate && cpx \"prisma/**\" dist/prisma",
+    "build": "pnpm install && pnpx prisma generate && tsc && cpx \"prisma/**\" dist/prisma",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "migrate": "npx prisma migrate dev",
@@ -20,7 +20,7 @@
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^6.7.0",
+    "prisma": "^6.8.2",
     "zod": "^3.25.28"
   },
   "devDependencies": {
