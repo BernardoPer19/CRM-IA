@@ -1,25 +1,23 @@
+// productRequests.ts
 import { apiRequest } from "./genericRequest";
+import { ProductType } from "@/types/ProductType";
 
 export async function getProducts() {
-  return apiRequest({ url: "/api/products" });
+  return apiRequest({ url: "https://crm-ia-kk9d.onrender.com/products" });
 }
 
-export async function getProduct(id: string) {
-  return apiRequest({ url: `/api/products/${id}` });
-}
-
-export async function createProduct(data: any) {
+export async function createProduct(data: ProductType) {
   return apiRequest({
     method: "POST",
-    url: "/api/products",
+    url: "https://crm-ia-kk9d.onrender.com/products",
     data,
   });
 }
 
-export async function updateProduct(id: string, data: any) {
+export async function updateProduct({ id, data }: { id: string; data: Partial<ProductType> }) {
   return apiRequest({
     method: "PUT",
-    url: `/api/products/${id}`,
+    url: `https://crm-ia-kk9d.onrender.com/products/${id}`,
     data,
   });
 }
@@ -27,6 +25,6 @@ export async function updateProduct(id: string, data: any) {
 export async function deleteProduct(id: string) {
   return apiRequest({
     method: "DELETE",
-    url: `/api/products/${id}`,
+    url: `https://crm-ia-kk9d.onrender.com/products/${id}`,
   });
 }

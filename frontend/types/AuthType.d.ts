@@ -1,6 +1,6 @@
 
 
-export type Role = "ADMIN" | "EMPLOYEE" 
+export type Role = "ADMIN" | "EMPLOYEE"
 
 export interface UserType {
     id: string
@@ -13,4 +13,19 @@ export interface UserType {
     role: Role;
     password: string;
     createdAt: Date;
+}
+
+
+export interface logintype {
+    email: string;
+    password: string;
+}
+
+export interface registerType {
+    name: string
+    lastName: string
+    phone: number
+    img: string
+    email: string
+    password: string
 }

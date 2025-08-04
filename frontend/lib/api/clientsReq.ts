@@ -1,26 +1,27 @@
+import { ClientType } from "@/types/ClientType";
 import { apiRequest } from "./genericRequest";
 
 
 export async function getClients() {
-  return apiRequest({ url: "/api/clients" });
+  return apiRequest({ url: "https://crm-ia-kk9d.onrender.com/clients" });
 }
 
 export async function getClient(id: string) {
-  return apiRequest({ url: `/api/clients/${id}` });
+  return apiRequest({ url: `https://crm-ia-kk9d.onrender.com/clients/${id}` });
 }
 
 export async function createClient(data: any) {
   return apiRequest({
     method: "POST",
-    url: "/api/clients",
+    url: "https://crm-ia-kk9d.onrender.com/clients",
     data,
   });
 }
 
-export async function updateClient(id: string, data: any) {
+export async function updateClient({ id, data }: { id: string; data: Partial<ClientType> }) {
   return apiRequest({
     method: "PUT",
-    url: `/api/clients/${id}`,
+    url: `https://crm-ia-kk9d.onrender.com/clients/${id}`,
     data,
   });
 }
@@ -28,6 +29,6 @@ export async function updateClient(id: string, data: any) {
 export async function deleteClient(id: string) {
   return apiRequest({
     method: "DELETE",
-    url: `/api/clients/${id}`,
+    url: `https://crm-ia-kk9d.onrender.com/clients/${id}`,
   });
 }

@@ -1,33 +1,33 @@
 import { apiRequest } from "./genericRequest";
 
-export async function login(data: { email: string; password: string }) {
+export async function loginRequest(data: { email: string; password: string }) {
   return apiRequest({
     method: "POST",
-    url: "/api/auth/login",
+    url: "https://crm-ia-kk9d.onrender.com/auth/login",
     data,
     withAuth: false,
   });
 }
 
-export async function register(data: { name: string; email: string; password: string }) {
+export async function registerRequest(data: { name: string; email: string; password: string }) {
   return apiRequest({
     method: "POST",
-    url: "/api/auth/register",
+    url: "https://crm-ia-kk9d.onrender.com/auth/register",
     data,
     withAuth: false,
   });
 }
 
-export async function logout() {
+export async function logoutRequest() {
   return apiRequest({
     method: "POST",
-    url: "/api/auth/logout",
+    url: "https://crm-ia-kk9d.onrender.com/auth/logout",
   });
 }
 
 export async function getCurrentUser() {
   return apiRequest({
     method: "GET",
-    url: "/api/auth/me",
+    url: "https://crm-ia-kk9d.onrender.com/auth/me",
   });
 }

@@ -1,33 +1,48 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Eye, EyeOff, Mail, Lock, User, LayoutDashboard } from 'lucide-react';
-import { FaGoogle, FaGithub } from 'react-icons/fa';
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  LayoutDashboard,
+  ImageIcon,
+  Phone,
+} from "lucide-react";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      alert("Las contraseñas no coinciden");
       return;
     }
     // TODO: Implement registration logic
-    console.log('Registration attempt:', formData);
+    console.log("Registration attempt:", formData);
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -57,7 +72,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-2 gap-3">
             <Button
               variant="outline"
-              onClick={() => handleSocialLogin('google')}
+              onClick={() => handleSocialLogin("google")}
               className="w-full"
             >
               <FaGoogle className="mr-2 h-4 w-4" />
@@ -65,7 +80,7 @@ export default function RegisterPage() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => handleSocialLogin('github')}
+              onClick={() => handleSocialLogin("github")}
               className="w-full"
             >
               <FaGithub className="mr-2 h-4 w-4" />
@@ -85,23 +100,86 @@ export default function RegisterPage() {
           </div>
 
           {/* Registration Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {/* Name */}
             <div className="space-y-2">
-              <Label htmlFor="name">Nombre Completo</Label>
+              <Label htmlFor="name">Nombre</Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Tu nombre completo"
+                  placeholder="Nombre"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="pl-10"
                   required
                 />
               </div>
             </div>
 
+            {/* Lastname */}
+            <div className="space-y-2">
+              <Label htmlFor="lastname">Apellido</Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="lastname"
+                  type="text"
+                  placeholder="Apellido"
+                  // value={formData.lastname}
+                  // onChange={(e) =>
+                  //   setFormData({ ...formData, lastname: e.target.value })
+                  // }
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="space-y-2">
+              <Label htmlFor="phone">Teléfono</Label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="Ej. +591 70000000"
+                  // value={formData.phone}
+                  // onChange={(e) =>
+                  //   setFormData({ ...formData, phone: e.target.value })
+                  // }
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="space-y-2">
+              <Label htmlFor="img">Imagen (URL)</Label>
+              <div className="relative">
+                <ImageIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="img"
+                  type="url"
+                  placeholder="URL de imagen"
+                  // value={formData.img}
+                  // onChange={(e) =>
+                  //   setFormData({ ...formData, img: e.target.value })
+                  // }
+                  className="pl-10"
+                />
+              </div>
+            </div>
+
+            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -111,23 +189,28 @@ export default function RegisterPage() {
                   type="email"
                   placeholder="tu@email.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="pl-10"
                   required
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Mínimo 8 caracteres"
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                   className="pl-10 pr-10"
                   required
                   minLength={8}
@@ -148,16 +231,22 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="space-y-2">
+            {/* Confirm Password */}
+            {/* <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   placeholder="Repite tu contraseña"
                   value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   className="pl-10 pr-10"
                   required
                 />
@@ -175,9 +264,10 @@ export default function RegisterPage() {
                   )}
                 </Button>
               </div>
-            </div>
+            </div> */}
 
-            <div className="flex items-center space-x-2">
+            {/* Términos (columna completa) */}
+            <div className="md:col-span-2 flex items-center space-x-2">
               <input
                 type="checkbox"
                 id="terms"
@@ -185,16 +275,19 @@ export default function RegisterPage() {
                 required
               />
               <Label htmlFor="terms" className="text-sm">
-                Acepto los{' '}
+                Acepto los{" "}
                 <Link href="/terms" className="text-primary hover:underline">
                   términos y condiciones
                 </Link>
               </Label>
             </div>
 
-            <Button type="submit" className="w-full">
-              Crear Cuenta
-            </Button>
+            {/* Submit (columna completa) */}
+            <div className="md:col-span-2">
+              <Button type="submit" className="w-full">
+                Crear Cuenta
+              </Button>
+            </div>
           </form>
 
           <div className="text-center text-sm">
