@@ -5,12 +5,17 @@ export const sendMessageToN8n = async (payload: {
   emisor: string;
   creadoPorId: string;
 }) => {
-  const url = 'https://primary-production-3577.up.railway.app/webhook/8493ca75-813c-403d-9570-2de1d0caf512';
+  const urls = [
+    'https://primary-production-3577.up.railway.app/webhook/8493ca75-813c-403d-9570-2de1d0caf512',
+    'https://primary-production-3577.up.railway.app/webhook-test/8493ca75-813c-403d-9570-2de1d0caf512'
+  ];
 
-  try {
-    await axios.post(url, payload);
-  } catch (error: any) {
-    console.error('Error al enviar a n8n:', error.message);
-    // Puedes decidir si lanzar el error o ignorarlo
+  for (const url of urls) {
+    try {
+      await axios.post(url, payload);
+      console.log(`Mensaje enviado correctamente a ${url}`);
+    } catch (error: any) {
+      console.error(`Error al enviar a ${url}:`, error.message);
+    }
   }
 };

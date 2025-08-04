@@ -14,6 +14,8 @@ export class MessageController {
 
     return res.status(201).json({
       status: "success",
+      id: message.id,
+      createdAt: message.creadoPorId,
       data: message,
     });
   });
