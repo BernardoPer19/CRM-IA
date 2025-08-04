@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  name            String
+  lastName        String
+  phone           Int
+  img             String
+  email           String    @unique
+  password        String
+  role            Role      @default(EMPLOYEE)
+  clients         Client[]  @relation("AssignedClients")
+  mensajesCreados Message[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Client {
+  id           String    @id @unique @default(cuid())
+  name         String
+  email        String?
+  phone        String
+  assignedTo   User?     @relation("AssignedClients", fields: [assignedToId], references: [id])
+  assignedToId String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([assignedToId])
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  contenido   String
+  emisor      Emisor
+  creadoPor   User?    @relation(fields: [creadoPorId], references: [id])
+  creadoPorId String?
+  createdAt   DateTime @default(now())
+}
+
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  stock       Int
+  img         String?
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum Emisor {
+  CLIENTE
+  EMPLEADO
+}
