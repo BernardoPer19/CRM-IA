@@ -5,7 +5,7 @@ import { MessageService } from "../services/messagesService.js";
 import { catchAsync } from "../../../middlewares/catchAsync.js";
 
 export class MessageController {
-  constructor(private readonly messageService: MessageService) { }
+  constructor(private readonly messageService: MessageService) {}
 
   public sendMessage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const data = validateMessage(req.body);
@@ -14,8 +14,6 @@ export class MessageController {
 
     return res.status(201).json({
       status: "success",
-      id: message.id,
-      createdAt: message.creadoPorId,
       data: message,
     });
   });

@@ -25,11 +25,7 @@ export class MessageService {
 
       // Lógica de notificación a n8n (no debe bloquear tu app si falla)
       try {
-        await sendMessageToN8n({
-          contenido: savedMessage.contenido,
-          emisor: savedMessage.emisor,
-          creadoPorId: data.creadoPorId ?? "",
-        });
+        await sendMessageToN8n(savedMessage);
       } catch (n8nError) {
         console.warn("n8n falló, pero no se detiene la creación del mensaje");
         // Puedes loguearlo o enviarlo a Sentry si usas
