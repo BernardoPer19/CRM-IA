@@ -1,4 +1,4 @@
-import { type User, PrismaClient, } from "@prisma/Client";
+import { type User, PrismaClient, } from "@prisma/client";
 import { CustomError } from "../../../error/customError.js";
 import type { UpdateEmplooyDto } from "../../../dtos/update-client.dto.js";
 
