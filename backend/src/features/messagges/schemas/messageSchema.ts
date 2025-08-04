@@ -5,7 +5,7 @@ import { Emisor } from "@prisma/client";
 export const messageSchema = z.object({
   contenido: z.string().min(1),
   emisor: z.nativeEnum(Emisor),
-  creadoPorId: z.string().uuid().optional(),
+  creadoPorId: z.string().cuid().optional(),
 });
 
 export type MessageInput = z.infer<typeof messageSchema>;
