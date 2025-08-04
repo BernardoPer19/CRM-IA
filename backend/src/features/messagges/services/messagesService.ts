@@ -5,13 +5,13 @@ import { CustomError } from "../../../error/customError.js";
 import { sendMessageToN8n } from "../infrastructure/adapters/n8nWebhookAdapter.js";
 
 export class MessageService {
-  constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) { }
 
   public async sendMessageOnDB(data: MessageInput): Promise<Message> {
     try {
       const messageData: Prisma.MessageCreateInput = {
         contenido: data.contenido,
-        emisor: data.emisor,
+        emisor: "IA",
         ...(data.creadoPorId && {
           creadoPor: {
             connect: { id: data.creadoPorId },
