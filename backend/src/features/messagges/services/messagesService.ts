@@ -11,13 +11,14 @@ export class MessageService {
     try {
       const messageData: Prisma.MessageCreateInput = {
         contenido: data.contenido,
-        emisor: "IA",
+        emisor: data.emisor, // ✅ aquí ya es dinámico
         ...(data.creadoPorId && {
           creadoPor: {
             connect: { id: data.creadoPorId },
           },
         }),
       };
+
 
       const savedMessage = await this.prisma.message.create({
         data: messageData,
