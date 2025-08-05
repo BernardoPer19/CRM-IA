@@ -14,7 +14,11 @@ export class AuthServices {
   public async RegisterUser(data: RegisterTypeSchema) {
     const { email, name, lastName, phone, img, role, password } = data;
 
+    console.log("Registro:", { email, name, lastName, phone, img, role, password });
+
     const existingUser = await this.findUserByEmail(email);
+    console.log("existingUser:", existingUser);
+
     if (existingUser) {
       throw new Error("El usuario ya está registrado con este correo.");
     }
@@ -25,7 +29,7 @@ export class AuthServices {
         name,
         lastName,
         phone,
-        img,
+        img: img || null,
         role: role || "EMPLOYEE",
         password,
       },
@@ -33,6 +37,7 @@ export class AuthServices {
 
     return newUser;
   }
+
 
   public async LoginValidateService({ email, password }: LoginType) {
     const user = await this.findUserByEmail(email);
@@ -57,6 +62,10 @@ export class AuthServices {
   }
 
   public async getUserProfile(userId: string): Promise<RegisterTypeSchema> {
+
+    if (!userId) throw new Error("User ID is required");
+
+
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -78,7 +87,7 @@ export class AuthServices {
       name: user.name,
       email: user.email,
       password: "",
-      img: user.img,
+      img: user.img ?? undefined,
       lastName: user.lastName,
       phone: user.phone,
       role: user.role,

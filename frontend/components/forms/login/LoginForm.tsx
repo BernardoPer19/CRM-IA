@@ -1,32 +1,52 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Mail, Lock, LayoutDashboard } from "lucide-react";
-const LoginForm = () => {
+import { LoginSchema, LoginType } from "../schemas/LoginSchemas";
+import { useAuth } from "@/hooks/useAuth";
+
+interface LoginFormProps {
+  onLogin?: (data: LoginType) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const router = useRouter();
+  const { login } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement login logic
-    console.log("Login attempt:", formData);
-  };
+  const onSubmit = (data: LoginType) => {
+    login.mutate(data, {
+      onSuccess: () => {
+        router.push("/dashboard");
+      },
+      onError: (error: any) => {
+        console.error("Login failed:", error);
+        // Podés mostrar un toast o mensaje de error acá
+      },
+    });
 
-  const handleSocialLogin = (provider: string) => {
-    // TODO: Implement social login
-    console.log(`Login with ${provider}`);
+    onLogin?.(data);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Email */}
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
@@ -35,16 +55,16 @@ const LoginForm = () => {
               id="email"
               type="email"
               placeholder="tu@email.com"
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
+              {...register("email")}
               className="pl-10"
-              required
             />
           </div>
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
 
+        {/* Password */}
         <div className="space-y-2">
           <Label htmlFor="password">Contraseña</Label>
           <div className="relative">
@@ -53,12 +73,8 @@ const LoginForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Tu contraseña"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
+              {...register("password")}
               className="pl-10 pr-10"
-              required
             />
             <Button
               type="button"
@@ -74,8 +90,12 @@ const LoginForm = () => {
               )}
             </Button>
           </div>
+          {errors.password && (
+            <p className="text-sm text-red-500">{errors.password.message}</p>
+          )}
         </div>
 
+        {/* Remember me + Forgot password */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <input
@@ -95,8 +115,9 @@ const LoginForm = () => {
           </Link>
         </div>
 
-        <Button type="submit" className="w-full">
-          Iniciar Sesión
+        {/* Submit */}
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? "Cargando..." : "Iniciar Sesión"}
         </Button>
       </form>
     </div>

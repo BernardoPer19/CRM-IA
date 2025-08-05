@@ -1,45 +1,36 @@
-// stores/useAuthStore.ts
-import { UserType } from "@/types/AuthType";
-import { create } from "zustand";
+// store/AuthStore.ts
+import { create } from 'zustand';
 
-import { logoutRequest } from "@/lib/api/authReq"
-import { toast } from "sonner";
-import { useRouter } from "next/router";
-
-
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+  // agrega más campos si tu user los tiene
+}
 
 interface AuthState {
-    currentUser: UserType | undefined;
-    isAuthenticated: boolean;
-    isAuthLoading: boolean;
-    setUser: (user: UserType | undefined) => void;
-    setLoading: (loading: boolean) => void;
-    logout: () => Promise<void>;
+  user?: User;
+  isAuthLoading: boolean;
+  isAuthenticated: boolean;
+
+  setUser: (user?: User) => void;
+  setLoading: (loading: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-    currentUser: undefined,
-    isAuthenticated: false,
-    isAuthLoading: true,
-    setUser: (user) =>
-        set({
-            currentUser: user,
-            isAuthenticated: !!user,
-        }),
-    setLoading: (loading) => set({ isAuthLoading: loading }),
-    logout: async () => {
+  user: undefined,
+  isAuthLoading: true, // al principio asumimos que estamos cargando
+  isAuthenticated: false,
 
-        try {
-            await logoutRequest();
-            set({
-                currentUser: undefined,
-                isAuthenticated: false,
-            });
-            toast.success("¡Sesión cerrada exitosamente!");
-            // useRouter().push("/");
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error);
-            toast.error("Error al cerrar sesión.");
-        }
-    },
+  setUser: (user) =>
+    set(() => ({
+      user,
+      isAuthenticated: !!user, // true si hay user, false si undefined
+    })),
+
+  setLoading: (loading) =>
+    set(() => ({
+      isAuthLoading: loading,
+    })),
 }));

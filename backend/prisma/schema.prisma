@@ -12,7 +12,7 @@ model User {
   name            String
   lastName        String
   phone           Int
-  img             String
+  img             String?
   email           String    @unique
   password        String
   role            Role      @default(EMPLOYEE)

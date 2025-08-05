@@ -1,4 +1,3 @@
-// components/auth/AuthGuard.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -6,19 +5,25 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { getUserProfile } = useAuth();
   const router = useRouter();
-
-  const { data, isLoading } = getUserProfile;
+  const { getUserProfile } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !data?.user) {
-      router.push("/login"); // redirige si no hay sesión
+    if (
+      !getUserProfile.isLoading &&
+      (!getUserProfile.data || getUserProfile.isError)
+    ) {
+      router.push("/auth/login");
     }
-  }, [data, isLoading, router]);
+  }, [
+    getUserProfile.data,
+    getUserProfile.isLoading,
+    getUserProfile.isError,
+    router,
+  ]);
 
-  if (isLoading) return <div>Cargando...</div>;
-  if (!data?.user) return null; // aún redireccionando
+  if (getUserProfile.isLoading) return <div>Cargando...</div>;
+  if (!getUserProfile.data) return null; // espera a redireccionar
 
   return <>{children}</>;
 }

@@ -18,6 +18,7 @@ export class AuthController {
     });
 
     res.status(201).json({
+      success: true,
       message: "Usuario registrado correctamente.",
       user: {
         id: newUser.id,
@@ -27,6 +28,7 @@ export class AuthController {
       },
     });
   });
+
 
   public login = catchAsync(async (req, res, _next) => {
     const { email, password } = validateLogin(req.body);
@@ -57,12 +59,14 @@ export class AuthController {
   });
 
   public getProfile = catchAsync(async (req, res, _next) => {
-    const userId = req.user?.id;
-    const profile = await this.service.getUserProfile(userId!);
+    if (!req.user) {
+      return res.status(401).json({ message: "No autorizado" });
+    }
 
-    res.status(200).json({
-      success: true,
-      user: profile,
-    });
+    const userId = req.user.id;
+    console.log(userId);
+    const profile = await this.service.getUserProfile(userId);
+    res.status(200).json({ success: true, user: profile });
   });
+
 }

@@ -16,6 +16,7 @@ import {
   BarChart3,
   Bot,
 } from "lucide-react";
+import LogoutButton from "../ui/01-button-logout";
 
 const navigation = [
   {
@@ -143,6 +144,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
             {!isCollapsed && <span>Configuración</span>}
           </Button>
         </Link>
+        <LogoutButton />
       </div>
     </div>
   );

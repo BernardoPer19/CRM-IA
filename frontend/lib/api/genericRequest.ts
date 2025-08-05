@@ -6,7 +6,7 @@ export interface ApiRequestOptions<T = any> {
   data?: T;
   params?: Record<string, any>;
   headers?: Record<string, string>;
-  withAuth?: boolean; // activa cookies de sesión
+  withAuth?: boolean;
 }
 
 export async function apiRequest<Response = any, Body = any>({
@@ -31,9 +31,30 @@ export async function apiRequest<Response = any, Body = any>({
     };
 
     const response = await axios(config);
+    console.log("✅ API response:", response);
     return response.data;
   } catch (error: any) {
-    console.error("API Request Error:", error);
-    throw error?.response?.data || error;
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status;
+
+      console.error("❌ API Request Error:", {
+        message: error.message,
+        status,
+        url,
+      });
+
+      // Si es 401, devolvemos un valor seguro en vez de lanzar error
+      if (status === 401) {
+        console.warn("🔒 Usuario no autenticado.");
+        // Puedes retornar un objeto controlado o lanzar si quieres
+        throw { message: "Unauthorized", status: 401 }; // O retorna algo si prefieres
+      }
+
+      // Para otros errores, lanzar el mensaje del backend si existe
+      throw error.response?.data || error;
+    }
+
+    // Si no es Axios error
+    throw error;
   }
 }

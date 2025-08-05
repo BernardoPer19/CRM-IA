@@ -3,6 +3,7 @@ import { Router } from "express";
 import { AuthController } from "../controllers/authController.js";
 import { AuthServices } from "../services/authServices.js";
 import type { PrismaClient } from "@prisma/client";
+import { verifyUser } from "../../../middlewares/verifyUser.js";
 
 export const iniciarAuthRouter = ({
     prisma,
@@ -17,7 +18,7 @@ export const iniciarAuthRouter = ({
     router.post("/register", authController.register);
     router.post("/login", authController.login);
     router.post("/logout", authController.logout);
-    router.post("/profile", authController.getProfile);
+    router.post("/profile", verifyUser, authController.getProfile);
 
     return router;
 };

@@ -6,7 +6,7 @@ export async function loginRequest(data: { email: string; password: string }) {
     method: "POST",
     url: "http://localhost:4000/auth/login",
     data,
-    withAuth: false,
+    withAuth: true,
   });
 }
 
@@ -30,5 +30,6 @@ export async function getCurrentUser() {
   return apiRequest({
     method: "POST",
     url: "http://localhost:4000/auth/profile",
+    withAuth: true,
   });
 }
