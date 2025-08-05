@@ -1,4 +1,4 @@
-import { loginRequest, registerRequest, getCurrentUser } from '@/lib/api/authReq';
+import { loginRequest, registerRequest, getCurrentUser, logoutRequest } from '@/lib/api/authReq';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from 'sonner'
 
@@ -13,20 +13,26 @@ export const useAuth = () => {
 
     const handleError = (context: string, error: any) => {
         console.error(`❌ Error en ${context}:`, error);
-
     };
 
 
     const register = useMutation({
         mutationFn: registerRequest,
         onSuccess: (data) => {
-            handleSuccess(data.data.message);
-            queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+            // data ya contiene { success, message, user }
+            if (data?.success) {
+                handleSuccess(data.message);
+                queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+            } else {
+                handleError("registro", new Error("Error inesperado en registro"));
+            }
         },
         onError: (error) => {
             handleError("registro", error);
+
         },
-    })
+    });
+
 
 
 
@@ -42,20 +48,22 @@ export const useAuth = () => {
     })
 
     const logout = useMutation({
-        mutationFn: loginRequest,
+        mutationFn: logoutRequest,
         onSuccess: (data) => {
             handleSuccess(data.message);
             queryClient.invalidateQueries({ queryKey: ["currentUser"] });
         },
         onError: (error) => {
-            handleError("registro", error);
+            handleError("logout", error);
         },
-    })
-
+    });
 
     const getUserProfile = useQuery({
-        queryKey: ["profile_key"],
+        refetchOnWindowFocus: false,
+        queryKey: ["currentUser"],
+        staleTime: 1000 * 60 * 5,
         queryFn: getCurrentUser,
+        enabled: false,
     })
 
     return {

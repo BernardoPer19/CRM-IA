@@ -1,18 +1,19 @@
 import { apiRequest } from "./genericRequest";
+import { RegisterTypeSchema } from '@/components/forms/schemas/RegisterSchema';
 
 export async function loginRequest(data: { email: string; password: string }) {
   return apiRequest({
     method: "POST",
-    url: "https://crm-ia-kk9d.onrender.com/auth/login",
+    url: "http://localhost:4000/auth/login",
     data,
     withAuth: false,
   });
 }
 
-export async function registerRequest(data: { name: string; email: string; password: string }) {
+export async function registerRequest(data: RegisterTypeSchema) {
   return apiRequest({
     method: "POST",
-    url: "https://crm-ia-kk9d.onrender.com/auth/register",
+    url: "http://localhost:4000/auth/register",
     data,
     withAuth: false,
   });
@@ -21,13 +22,13 @@ export async function registerRequest(data: { name: string; email: string; passw
 export async function logoutRequest() {
   return apiRequest({
     method: "POST",
-    url: "https://crm-ia-kk9d.onrender.com/auth/logout",
+    url: "http://localhost:4000/auth/logout",
   });
 }
 
 export async function getCurrentUser() {
   return apiRequest({
-    method: "GET",
-    url: "https://crm-ia-kk9d.onrender.com/auth/me",
+    method: "POST",
+    url: "http://localhost:4000/auth/profile",
   });
 }
