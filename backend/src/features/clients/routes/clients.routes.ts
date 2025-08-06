@@ -17,19 +17,23 @@ export function iniciarClientRouter({ prisma }: { prisma: PrismaClient }): Route
     router.use(verifyUser);
 
     router.get(
-        "/", clientController.getAllClients
+        "/",
+        verifyUser,
+        permissionRoles(Role.ADMIN, Role.EMPLOYEE),
+        clientController.getAllClients
     );
     router.get(
         "/:id",
+        verifyUser,
+        permissionRoles(Role.ADMIN, Role.EMPLOYEE),
         clientController.getClientById
     );
     router.post(
         "/",
-        permissionRoles(Role.ADMIN,
-            Role.EMPLOYEE),
+        verifyUser,
+        permissionRoles(Role.ADMIN, Role.EMPLOYEE),
         clientController.createClient
     );
-
     router.delete(
         "/:id",
         permissionRoles(Role.ADMIN),

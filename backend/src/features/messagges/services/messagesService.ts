@@ -24,12 +24,11 @@ export class MessageService {
         data: messageData,
       });
 
-      // Lógica de notificación a n8n (no debe bloquear tu app si falla)
       try {
-        // ... dentro de sendMessageOnDB
+
         if (savedMessage.emisor === "ADMIN") {
           try {
-            await sendMessageToN8n(savedMessage); // ✅ Solo si lo escribió un ADMIN
+            await sendMessageToN8n(savedMessage);
           } catch (n8nError) {
             console.warn("n8n falló, pero no se detiene la creación del mensaje");
           }
@@ -37,7 +36,6 @@ export class MessageService {
 
       } catch (n8nError) {
         console.warn("n8n falló, pero no se detiene la creación del mensaje");
-        // Puedes loguearlo o enviarlo a Sentry si usas
       }
 
       return savedMessage;
