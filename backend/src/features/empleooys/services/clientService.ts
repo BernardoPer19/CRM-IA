@@ -24,7 +24,11 @@ export class EmplooyService {
 
     public async getEmployeesService(): Promise<User[]> {
         try {
-            return await this.prisma.user.findMany({ where: { role: "EMPLOYEE" } });
+            return await this.prisma.user.findMany({
+                orderBy: {
+                    role: 'asc', 
+                },
+            });
         } catch {
             throw new CustomError("Error al obtener los usuarios", 500);
         }
