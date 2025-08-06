@@ -2,11 +2,22 @@ import { UserType } from "@/types/AuthType";
 import { apiRequest } from "./genericRequest";
 
 
-export async function getUsers() {
-  return apiRequest({
-    method: "GET",
-    url: "https://crm-ia-kk9d.onrender.com/users"
+export async function getEmployees(accessToken: string): Promise<UserType[]> {
+  const res = await fetch("http://localhost:4000/employee", {
+    headers: {
+      Cookie: `access_token=${accessToken}`,
+    },
+    cache: "no-cache",
+    next: { revalidate: 3600 },
   });
+
+  if (!res.ok) {
+    console.error("❌ SSR Fetch failed:", await res.text());
+    throw new Error("Failed to fetch clients");
+  }
+
+  const data = await res.json();
+  return data.clients;
 }
 
 export async function getUser(id: string) {

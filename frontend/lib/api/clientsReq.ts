@@ -3,15 +3,9 @@ import { apiRequest } from "./genericRequest";
 import { cookies } from "next/headers";
 
 
-export async function getClients() {
-  return apiRequest({
-    method: "GET",
-    url: "http://localhost:4000/clients",
-    withAuth: true,
-  });
-}
 
-export async function getClients2(accessToken:string): Promise<ClientType[]> {
+
+export async function getClients(accessToken:string): Promise<ClientType[]> {
  
   const res = await fetch("http://localhost:4000/clients", {
     headers: {

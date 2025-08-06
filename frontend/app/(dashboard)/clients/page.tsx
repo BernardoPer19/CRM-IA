@@ -1,7 +1,6 @@
-import { getClients2 } from "@/lib/api/clientsReq";
+import { getClients } from "@/lib/api/clientsReq";
 import HeaderClient from "@/components/dashboard/clients/HeaderClient";
 import FilterClient from "@/components/dashboard/clients/FilterClient";
-import ClientsTable from "@/components/dashboard/clients/Clientstable";
 import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
@@ -14,13 +13,12 @@ export default async function ClientsPage() {
     throw new Error("No token found. Please log in.");
   }
 
-  const clients = await getClients2(accessToken); // SSR fetch
+  const clients = await getClients(accessToken); // SSR fetch
 
   return (
     <div className="p-6 space-y-6">
       <HeaderClient />
-      <FilterClient />
-      <ClientsTable clients={clients} />
+      <FilterClient clients={clients}  />
     </div>
   );
 }
