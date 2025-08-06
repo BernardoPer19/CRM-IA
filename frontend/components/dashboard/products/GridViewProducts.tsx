@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
+import { ProductType } from "@/types/ProductType";
 
 const getStockStatus = (stock: number) => {
   if (stock === 0) return { label: 'Sin Stock', color: 'destructive' };
@@ -17,7 +18,7 @@ const getStockStatus = (stock: number) => {
   return { label: 'En Stock', color: 'default' };
 };
 
-export default function GridViewProducts({ products }: { products: any[] }) {
+export default function GridViewProducts({ products }: { products: ProductType[] }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
@@ -26,7 +27,7 @@ export default function GridViewProducts({ products }: { products: any[] }) {
           <Card key={product.id} className="overflow-hidden">
             <div className="aspect-square relative bg-muted">
               <img
-                src={product.image}
+                src={product.img ?? ""}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -51,7 +52,7 @@ export default function GridViewProducts({ products }: { products: any[] }) {
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <Badge variant="outline">{product.category}</Badge>
+                {/* <Badge variant="outline">{product.category}</Badge> */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm">

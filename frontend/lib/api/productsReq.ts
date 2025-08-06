@@ -11,8 +11,8 @@ import { ProductType } from "@/types/ProductType";
 
 export async function getProducts(accessToken:string): Promise<ProductType[]> {
  
-  const res = await fetch("http://localhost:4000/products", {
-    headers: {
+  const res = await fetch("http://localhost:4000/products/admin", {
+     headers: {
       Cookie: `access_token=${accessToken}`,
     },
     cache: "no-cache",
@@ -24,7 +24,8 @@ export async function getProducts(accessToken:string): Promise<ProductType[]> {
     throw new Error("Failed to fetch clients");
   }
 
-  return res.json();
+  const data = await res.json();
+  return data.data;
 }
 
 

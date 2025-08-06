@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
+import { ProductType } from "@/types/ProductType";
 
 const getStockStatus = (stock: number) => {
   if (stock === 0) return { label: 'Sin Stock', color: 'destructive' };
@@ -25,7 +26,7 @@ const getStockStatus = (stock: number) => {
   return { label: 'En Stock', color: 'default' };
 };
 
-export default function TableViewProducts({ products }: { products: any[] }) {
+export default function TableViewProducts({ products }: { products: ProductType[] }) {
   return (
     <Card>
       <CardHeader>
@@ -54,7 +55,7 @@ export default function TableViewProducts({ products }: { products: any[] }) {
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-muted rounded-md overflow-hidden">
                           <img
-                            src={product.image}
+                            src={product?.img ?? ""}
                             alt={product.name}
                             className="w-full h-full object-cover"
                           />
@@ -68,7 +69,7 @@ export default function TableViewProducts({ products }: { products: any[] }) {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{product.category}</Badge>
+                      {/* <Badge variant="outline">{product.category}</Badge> */}
                     </TableCell>
                     <TableCell>
                       <div className="font-semibold">${product.price}</div>
