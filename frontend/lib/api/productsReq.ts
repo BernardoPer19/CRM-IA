@@ -3,7 +3,9 @@ import { apiRequest } from "./genericRequest";
 import { ProductType } from "@/types/ProductType";
 
 export async function getProducts() {
-  return apiRequest({ url: "https://crm-ia-kk9d.onrender.com/products" });
+  return apiRequest({    
+    method: "GET", 
+    url: "https://crm-ia-kk9d.onrender.com/products" });
 }
 
 export async function createProduct(data: ProductType) {

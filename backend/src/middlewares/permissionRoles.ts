@@ -17,6 +17,6 @@ export const permissionRoles = (...rolesPermitidos: Role[]) => {
                 .json({ message: "No tienes permisos para acceder a esta ruta" });
         }
 
-        return next();  // <-- aquí agregamos return
+        return next(); 
     };
 };

@@ -3,11 +3,17 @@ import { apiRequest } from "./genericRequest";
 
 
 export async function getUsers() {
-  return apiRequest({ url: "https://crm-ia-kk9d.onrender.com/users" });
+  return apiRequest({
+    method: "GET",
+    url: "https://crm-ia-kk9d.onrender.com/users"
+  });
 }
 
 export async function getUser(id: string) {
-  return apiRequest({ url: `https://crm-ia-kk9d.onrender.com/users/${id}` });
+  return apiRequest({
+    method: "GET",
+    url: `https://crm-ia-kk9d.onrender.com/users/${id}`
+  });
 }
 
 export async function updateUser({ id, data }: { id: string; data: Partial<UserType> }) {
