@@ -9,17 +9,15 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Mail, Phone } from "lucide-react";
+import DropDownActionsMenu from "./ui/DropDownActionsMenu";
+import { UserType } from "@/types/AuthType";
 
-import { Mail, Phone, MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+interface TableEmployeeProps {
+  employees: UserType[];
+}
 
-export default function TableEmployee({ employees }: { employees: any[] }) {
+export default function TableEmployee({ employees }: TableEmployeeProps) {
   const getRoleColor = (role: string) => {
     switch (role) {
       case "ADMIN":
@@ -31,6 +29,7 @@ export default function TableEmployee({ employees }: { employees: any[] }) {
     }
   };
 
+
   return (
     <Card>
       <CardHeader>
@@ -41,26 +40,33 @@ export default function TableEmployee({ employees }: { employees: any[] }) {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>ID</TableHead>
                 <TableHead>Empleado</TableHead>
                 <TableHead>Contacto</TableHead>
                 <TableHead>Rol</TableHead>
                 <TableHead>Clientes Asignados</TableHead>
                 <TableHead>Fecha de Ingreso</TableHead>
-                <TableHead>Estado</TableHead>
                 <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {employees.map((employee) => (
                 <TableRow key={employee.id}>
+                  <TableCell>{employee.id}</TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-3">
                       <Avatar className="h-12 w-12">
-                        <AvatarImage src={employee.avatar} />
-                        <AvatarFallback>
-                          {employee.name[0]}
-                          {employee.lastName[0]}
-                        </AvatarFallback>
+                        {employee.img ? (
+                          <AvatarImage
+                            src={employee.img}
+                            alt={`${employee.name} ${employee.lastName}`}
+                          />
+                        ) : (
+                          <AvatarFallback>
+                            {employee.name?.charAt(0) || ""}
+                            {employee.lastName?.charAt(0) || ""}
+                          </AvatarFallback>
+                        )}
                       </Avatar>
                       <div>
                         <div className="font-medium">
@@ -91,8 +97,12 @@ export default function TableEmployee({ employees }: { employees: any[] }) {
                   </TableCell>
                   <TableCell>
                     <div className="text-center">
-                      <div className="text-lg font-semibold">{employee.clientsAssigned}</div>
-                      <div className="text-xs text-muted-foreground">clientes</div>
+                      <div className="text-lg font-semibold">
+                        {employee.clients?.length ?? 0}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        clientes
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -100,35 +110,14 @@ export default function TableEmployee({ employees }: { employees: any[] }) {
                       {new Date(employee.createdAt).toLocaleDateString("es-ES")}
                     </div>
                   </TableCell>
+
                   <TableCell>
-                    <Badge
-                      variant={employee.status === "Activo" ? "default" : "secondary"}
-                    >
-                      {employee.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
-                          <Eye className="mr-2 h-4 w-4" />
-                          Ver Perfil
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Edit className="mr-2 h-4 w-4" />
-                          Editar
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Desactivar
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <DropDownActionsMenu
+                      datID = {employee.id}
+                      see="Ver Perfil"
+                      edit="Editar"
+                      removeEmployee="Eliminar Empleado"
+                    />
                   </TableCell>
                 </TableRow>
               ))}

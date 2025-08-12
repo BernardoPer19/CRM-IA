@@ -1,7 +1,6 @@
 // useProducts.ts
 import { useCrud } from "./useCrud";
 import {
-    getProducts,
     createProduct,
     updateProduct,
     deleteProduct,
@@ -16,7 +15,6 @@ export const useProducts = () =>
         string
     >({
         key: "products",
-        queryFn: getProducts,
         createFn: createProduct,
         updateFn: updateProduct,
         deleteFn: deleteProduct,

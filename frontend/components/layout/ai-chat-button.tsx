@@ -129,7 +129,7 @@ export function AiChatButton() {
         className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full shadow-lg"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className=" fixed h-6 w-6" />
       </Button>
     </>
   );
