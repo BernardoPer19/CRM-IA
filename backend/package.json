@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "pnpx prisma generate && tsc && cpx \"prisma/**\" dist/prisma",
+    "build": "pnpm prisma generate && tsc",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "migrate": "npx prisma migrate dev",
@@ -15,16 +15,13 @@
     "@prisma/client": "^6.8.2",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
-    "build": "^0.1.4",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "pnpm": "^10.14.0",
     "prisma": "^6.8.2",
-    "run": "^1.5.0",
     "zod": "^3.25.28"
   },
   "devDependencies": {
