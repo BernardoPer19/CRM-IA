@@ -1,4 +1,3 @@
-// src/modules/auth/routes/auth.routes.ts
 import { Router } from "express";
 import { AuthController } from "../controllers/authController.js";
 import { AuthServices } from "../services/authServices.js";

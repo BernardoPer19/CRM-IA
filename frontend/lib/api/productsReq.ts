@@ -2,9 +2,32 @@
 import { apiRequest } from "./genericRequest";
 import { ProductType } from "@/types/ProductType";
 
-export async function getProducts() {
-  return apiRequest({ url: "https://crm-ia-kk9d.onrender.com/products" });
+// export async function getProducts() {
+//   return apiRequest({    
+//     method: "GET", 
+//     url: "https://crm-ia-kk9d.onrender.com/products" });
+// }
+
+
+export async function getProducts(accessToken:string): Promise<ProductType[]> {
+ 
+  const res = await fetch("http://localhost:4000/products/admin", {
+     headers: {
+      Cookie: `access_token=${accessToken}`,
+    },
+    cache: "no-cache",
+    next: { revalidate: 3600 },
+  });
+
+  if (!res.ok) {
+    console.error("❌ SSR Fetch failed:", await res.text());
+    throw new Error("Failed to fetch clients");
+  }
+
+  const data = await res.json();
+  return data.data;
 }
+
 
 export async function createProduct(data: ProductType) {
   return apiRequest({

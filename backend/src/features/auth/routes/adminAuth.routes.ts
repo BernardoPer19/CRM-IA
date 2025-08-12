@@ -1,4 +1,3 @@
-// src/modules/auth/routes/auth.routes.ts
 import { Router } from "express";
 import { AuthServices } from "../services/authServices.js";
 import type { PrismaClient } from "@prisma/client/extension";

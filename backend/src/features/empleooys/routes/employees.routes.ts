@@ -26,7 +26,7 @@ export function iniciarEmployeeRouter({ prisma }: { prisma: PrismaClient }) : Ro
 
     router.delete(
         "/:id",
-        permissionRoles(Role.ADMIN),
+        permissionRoles(Role.ADMIN, Role.EMPLOYEE),
         employeeController.deleteEmployees
     );
 

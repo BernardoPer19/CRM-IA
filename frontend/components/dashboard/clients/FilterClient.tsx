@@ -1,24 +1,23 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Plus, Search, Filter } from "lucide-react";
-import { useClients } from "@/hooks/useClients";
+import {  Search, Filter } from "lucide-react";
+import { ClientType } from "@/types/ClientType";
+import ClientsTable from "./Clientstable";
 
-const FilterClient = () => {
+const FilterClient = ({ clients }: { clients: ClientType[] }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { list } = useClients();
 
-  const filteredClients = list?.data?.filter(
+  const filteredClients = clients?.filter(
     (client) =>
       client.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       client.phone?.includes(searchTerm) ||
       client.assignedToId?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   return (
     <div>
@@ -44,6 +43,9 @@ const FilterClient = () => {
           </div>
         </CardContent>
       </Card>
+
+
+      <ClientsTable clients={filteredClients} />
     </div>
   );
 };

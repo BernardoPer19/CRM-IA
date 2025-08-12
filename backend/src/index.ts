@@ -15,10 +15,9 @@ import { iniciarClientRouter } from './features/clients/routes/clients.routes.js
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Configurar CORS
 app.use(cors({
-  origin: 'http://localhost:3000',   // Origen permitido (Next.js dev server)
-  credentials: true,                 // Permite enviar cookies/autenticación
+  origin: 'http://localhost:3000',  
+  credentials: true,                
 }));
 
 app.use(express.json());

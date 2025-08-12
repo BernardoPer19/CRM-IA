@@ -11,11 +11,11 @@ export const iniciarProductRouter = ({ prisma }: { prisma: PrismaClient }): Rout
   const service = new ProductService(prisma);
   const controller = new ProductController(service);
 
-  router.get("/", verifyUser, permissionRoles("ADMIN"), controller.getAll);
-  router.get("/:id", verifyUser, permissionRoles("ADMIN"), controller.getById);
-  router.post("/", verifyUser, permissionRoles("ADMIN"), controller.create);
-  router.put("/:id", verifyUser, permissionRoles("ADMIN"), controller.update);
-  router.delete("/:id", verifyUser, permissionRoles("ADMIN"), controller.delete);
+  router.get("/", verifyUser, permissionRoles("ADMIN","EMPLOYEE"), controller.getAll);
+  router.get("/:id", verifyUser, permissionRoles("ADMIN","EMPLOYEE"), controller.getById);
+  router.post("/", verifyUser, permissionRoles("ADMIN","EMPLOYEE"), controller.create);
+  router.put("/:id", verifyUser, permissionRoles("ADMIN","EMPLOYEE"), controller.update);
+  router.delete("/:id", verifyUser, permissionRoles("ADMIN","EMPLOYEE"), controller.delete);
 
   return router;
 };

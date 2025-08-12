@@ -1,13 +1,13 @@
 // src/seed/seed.ts
 import { PrismaClient, Role } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 export async function main() {
   console.log("🚨 Eliminando todos los datos...");
 
-  // Eliminar en orden correcto por relaciones
   await prisma.message.deleteMany();
   await prisma.product.deleteMany();
   await prisma.client.deleteMany();
@@ -31,16 +31,15 @@ export async function main() {
       name: "Agustin Bernardo",
       lastName: "Preedo Rodriguz",
       phone: 64854829,
-      img: faker.image.avatarGitHub(), // cualquier imagen
+      img: faker.image.avatarGitHub(), 
       email: "wawxper08@gmail.com",
-      password: "admin123", // OJO: sin hash, para pruebas
+      password:await bcrypt.hash("123123", 10), 
       role: Role.ADMIN,
     },
   });
 
   console.log(`👑 Admin creado: ${admin.name} ${admin.lastName}`);
 
-  // Crear 9 empleados adicionales
   const empleados = await Promise.all(
     Array.from({ length: 9 }).map(() =>
       prisma.user.create({
@@ -61,7 +60,6 @@ export async function main() {
 
   console.log(`👷‍♂️ Se crearon ${usuarios.length} usuarios en total`);
 
-  // Crear clientes (5 asignados a primeros 5 usuarios)
   await Promise.all(
     Array.from({ length: 10 }).map((_, i) =>
       prisma.client.create({
@@ -77,7 +75,6 @@ export async function main() {
 
   console.log("👥 Clientes creados");
 
-  // Crear productos
   await Promise.all(
     Array.from({ length: 30 }).map(() => {
       const categoria = faker.helpers.arrayElement(categorias);
