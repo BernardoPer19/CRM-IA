@@ -1,35 +1,36 @@
-import { apiRequest } from "./genericRequest";
+import { apiRequest } from "./axios/genericRequest";
 import { RegisterTypeSchema } from '@/components/forms/schemas/RegisterSchema';
 
 export async function loginRequest(data: { email: string; password: string }) {
   return apiRequest({
     method: "POST",
-    url: "http://localhost:4000/auth/login",
+    url: "/auth/login",
     data,
-    withAuth: true,
+    withAuth: true, // Opcional, porque es true por defecto
   });
 }
 
 export async function registerRequest(data: RegisterTypeSchema) {
   return apiRequest({
     method: "POST",
-    url: "http://localhost:4000/auth/register",
+    url: "/auth/register",
     data,
-    withAuth: false,
+    withAuth: false, // Aquí explícito porque es false
   });
 }
 
 export async function logoutRequest() {
   return apiRequest({
     method: "POST",
-    url: "http://localhost:4000/auth/logout",
+    url: "/auth/logout",
+    // withAuth: true, // opcional
   });
 }
 
 export async function getCurrentUser() {
   return apiRequest({
     method: "POST",
-    url: "http://localhost:4000/auth/profile",
-    withAuth: true,
+    url: "/auth/profile",
+    withAuth: true, // opcional
   });
 }

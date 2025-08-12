@@ -1,5 +1,5 @@
 // productRequests.ts
-import { apiRequest } from "./genericRequest";
+import { apiRequest } from "./axios/genericRequest";
 import { ProductType } from "@/types/ProductType";
 
 // export async function getProducts() {
@@ -9,10 +9,10 @@ import { ProductType } from "@/types/ProductType";
 // }
 
 
-export async function getProducts(accessToken:string): Promise<ProductType[]> {
- 
+export async function getProducts(accessToken: string): Promise<ProductType[]> {
+
   const res = await fetch("http://localhost:4000/products/admin", {
-     headers: {
+    headers: {
       Cookie: `access_token=${accessToken}`,
     },
     cache: "no-cache",

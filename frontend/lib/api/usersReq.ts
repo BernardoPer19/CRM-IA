@@ -1,5 +1,5 @@
 import { UserType } from "@/types/AuthType";
-import { apiRequest } from "./genericRequest";
+import { apiRequest } from "./axios/genericRequest";
 
 
 export async function getEmployees(accessToken: string): Promise<UserType[]> {
@@ -38,6 +38,7 @@ export async function updateUser({ id, data }: { id: string; data: Partial<UserT
 export async function deleteUser(id: string) {
   return apiRequest({
     method: "DELETE",
-    url: `https://crm-ia-kk9d.onrender.com/users/${id}`,
+    url: `http://localhost:4000/employee/${id}`,
+    withAuth: true
   });
 }

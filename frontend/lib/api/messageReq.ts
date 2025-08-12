@@ -1,9 +1,9 @@
-import { apiRequest } from "./genericRequest";
+import { apiRequest } from "./axios/genericRequest";
 
 export async function getMessages() {
-    return apiRequest({ 
-        method: "GET", 
-        url: "https://crm-ia-kk9d.onrender.com/messages" 
+    return apiRequest({
+        method: "GET",
+        url: "https://crm-ia-kk9d.onrender.com/messages"
     });
 }
 
