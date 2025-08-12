@@ -1,6 +1,7 @@
 // src/seed/seed.ts
 import { PrismaClient, Role } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -32,7 +33,7 @@ export async function main() {
       phone: 64854829,
       img: faker.image.avatarGitHub(), 
       email: "wawxper08@gmail.com",
-      password: "123123", 
+      password:await bcrypt.hash("123123", 10), 
       role: Role.ADMIN,
     },
   });
