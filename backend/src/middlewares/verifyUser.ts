@@ -5,7 +5,8 @@ import type { RegisterUser } from "../features/auth/types/interfaces/userInterfa
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
 
     const token = req.cookies.access_token;
-
+    console.log("EL TOKEN:",token);
+    
     if (!token) {
         res.status(401).json({ message: "No autorizado: Token no proporcionado" });
         return
