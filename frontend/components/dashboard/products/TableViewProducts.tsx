@@ -20,6 +20,7 @@ import {
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
 import { ProductType } from "@/types/ProductType";
 import Image from "next/image";
+import DropProductMenu from "./DropProductMenu";
 
 const getStockStatus = (stock: number) => {
   if (stock === 0) return { label: "Sin Stock", color: "destructive" };
@@ -57,9 +58,7 @@ export default function TableViewProducts({
                 const stockStatus = getStockStatus(product.stock);
                 return (
                   <TableRow key={product.id}>
-                    <TableCell>
-                      {product.id}
-                    </TableCell>
+                    <TableCell>{product.id}</TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-muted rounded-md overflow-hidden">
@@ -105,24 +104,7 @@ export default function TableViewProducts({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>
-                            <Eye className="mr-2 h-4 w-4" /> Ver Detalles
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <Edit className="mr-2 h-4 w-4" /> Editar
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">
-                            <Trash2 className="mr-2 h-4 w-4" /> Eliminar
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <DropProductMenu productId={product.id}/>
                     </TableCell>
                   </TableRow>
                 );
