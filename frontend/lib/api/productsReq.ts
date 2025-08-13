@@ -6,7 +6,7 @@ import { ProductType } from "@/types/ProductType";
 
 export async function getProducts(): Promise<ProductType[]> {
 
-  const res = await fetch("http://localhost:4000/products/admin", {
+  const res = await fetch("https://crm-ia-production.up.railway.app/products/admin", {
     cache: "no-cache",
     next: { revalidate: 3600 },
   });
@@ -22,7 +22,7 @@ export async function getProducts(): Promise<ProductType[]> {
 
 
 export async function getProductById(id: string): Promise<ProductType> {
-  const res = await fetch(`http://localhost:4000/products/admin/${id}`, {
+  const res = await fetch(`https://crm-ia-production.up.railway.app/products/admin/${id}`, {
     cache: "no-cache",
     next: { revalidate: 3600 }, // opcional, para ISR
   });
@@ -39,7 +39,7 @@ export async function getProductById(id: string): Promise<ProductType> {
 export async function createProduct(data: ProductType) {
   return apiRequest({
     method: "POST",
-    url: "https://crm-ia-kk9d.onrender.com/products/admin",
+    url: "/products/admin",
     data,
   });
 }
@@ -47,7 +47,7 @@ export async function createProduct(data: ProductType) {
 export async function updateProduct({ id, data }: { id: string; data: Partial<ProductType> }) {
   return apiRequest({
     method: "PUT",
-    url: `https://crm-ia-kk9d.onrender.com/products/admin/${id}`,
+    url: `/products/admin/${id}`,
     data,
   });
 }
@@ -55,6 +55,6 @@ export async function updateProduct({ id, data }: { id: string; data: Partial<Pr
 export async function deleteProduct(id: string) {
   return apiRequest({
     method: "DELETE",
-    url: `https://crm-ia-kk9d.onrender.com/products/admin/${id}`, withAuth: true
+    url: `/products/admin/${id}`, withAuth: true
   });
 }

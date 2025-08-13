@@ -24,7 +24,7 @@ export async function getEmployees(): Promise<UserType[]> {
 }
 
 export async function getEmployeeById(id: string): Promise<UserType> {
-  const res = await fetch(`https://crm-ia-production.up.railway.app/employee/${id}`, {
+  const res = await fetch(`/employee/${id}`, {
     cache: "no-store",
     credentials: "include",
   });
@@ -35,7 +35,7 @@ export async function getEmployeeById(id: string): Promise<UserType> {
 export async function updateUser({ id, data }: { id: string; data: Partial<UserType> }) {
   return apiRequest({
     method: "PUT",
-    url: `https://crm-ia-kk9d.onrender.com/users/${id}`,
+    url: `/employee/${id}`,
     data,
   });
 }
@@ -43,7 +43,7 @@ export async function updateUser({ id, data }: { id: string; data: Partial<UserT
 export async function deleteUser(id: string) {
   return apiRequest({
     method: "DELETE",
-    url: `http://localhost:4000/employee/${id}`,
+    url: `/employee/${id}`,
     withAuth: true
   });
 }
