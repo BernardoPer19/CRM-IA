@@ -8,11 +8,11 @@ export class EmployeeController {
   constructor(private readonly clientService: EmplooyService) { }
 
   public getAllEmployees = catchAsync(async (_req: Request, res: Response) => {
-    const clients = await this.clientService.getEmployeesService();
-    const size = clients.length
+    const employees = await this.clientService.getEmployeesService();
+    const size = employees.length
     res.json({
       size,
-      clients,
+      employees,
     });
   });
 
