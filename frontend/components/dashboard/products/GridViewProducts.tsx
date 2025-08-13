@@ -11,14 +11,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
 import { ProductType } from "@/types/ProductType";
+import Image from "next/image";
 
 const getStockStatus = (stock: number) => {
-  if (stock === 0) return { label: 'Sin Stock', color: 'destructive' };
-  if (stock <= 5) return { label: 'Stock Bajo', color: 'secondary' };
-  return { label: 'En Stock', color: 'default' };
+  if (stock === 0) return { label: "Sin Stock", color: "destructive" };
+  if (stock <= 5) return { label: "Stock Bajo", color: "secondary" };
+  return { label: "En Stock", color: "default" };
 };
 
-export default function GridViewProducts({ products }: { products: ProductType[] }) {
+export default function GridViewProducts({
+  products,
+}: {
+  products: ProductType[];
+}) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => {
@@ -26,9 +31,12 @@ export default function GridViewProducts({ products }: { products: ProductType[]
         return (
           <Card key={product.id} className="overflow-hidden">
             <div className="aspect-square relative bg-muted">
-              <img
-                src={product.img ?? ""}
+              <Image
+                src={product?.img ?? ""}
                 alt={product.name}
+                 loading="lazy"
+                width={1000}
+                height={1000}
                 className="w-full h-full object-cover"
               />
               {product.stock <= 5 && (

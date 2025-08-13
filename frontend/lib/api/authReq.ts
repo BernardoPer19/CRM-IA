@@ -1,36 +1,46 @@
 import { apiRequest } from "./axios/genericRequest";
 import { RegisterTypeSchema } from '@/components/forms/schemas/RegisterSchema';
 
+function normalizeAuthResponse(res: any) {
+  return {
+    success: res?.success ?? true, // Por defecto true si no viene
+    message: res?.message ?? "",
+    user: res?.user ?? null
+  };
+}
+
 export async function loginRequest(data: { email: string; password: string }) {
-  return apiRequest({
+  const res = await apiRequest({
     method: "POST",
     url: "/auth/login",
     data,
     withAuth: true,
   });
+  return normalizeAuthResponse(res);
 }
 
 export async function registerRequest(data: RegisterTypeSchema) {
-  return apiRequest({
+  const res = await apiRequest({
     method: "POST",
     url: "/auth/register",
     data,
-    withAuth: false, // Aquí explícito porque es false
+    withAuth: false,
   });
+  return normalizeAuthResponse(res);
 }
 
 export async function logoutRequest() {
   return apiRequest({
     method: "POST",
     url: "/auth/logout",
-    // withAuth: true, // opcional
   });
 }
 
 export async function getCurrentUser() {
-  return apiRequest({
+  const res = await apiRequest({
     method: "POST",
     url: "/auth/profile",
-    withAuth: true, // opcional
+    withAuth: true,
   });
+  return normalizeAuthResponse(res);
 }

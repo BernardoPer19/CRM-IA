@@ -100,7 +100,12 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
           {navigation.map((item) => {
             const isActive = pathname === item.href;
             return (
-              <Link key={item.name} href={item.href}>
+              <Link 
+              prefetch={true} 
+              key={item.name} 
+              href={item.href}
+              
+              >
                 <Button
                   variant={isActive ? "secondary" : "ghost"}
                   className={cn(

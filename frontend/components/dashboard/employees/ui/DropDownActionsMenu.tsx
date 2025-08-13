@@ -26,7 +26,6 @@ const DropDownActionsMenu = ({ see, edit, removeEmployee, datID }: Props) => {
   const handleDelete = () => {
     remove?.mutate(datID, {
       onSuccess: () => {
-        // recarga la ruta para refrescar la UI
         router.refresh();
       },
     });
@@ -41,7 +40,9 @@ const DropDownActionsMenu = ({ see, edit, removeEmployee, datID }: Props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
+          <DropdownMenuItem
+          onClick={() => router.push(`/employees/${datID}`)}
+          >
             <Eye className="mr-2 h-4 w-4" />
             {see}
           </DropdownMenuItem>

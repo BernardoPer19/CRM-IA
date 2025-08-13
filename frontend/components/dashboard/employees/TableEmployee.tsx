@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Mail, Phone } from "lucide-react";
 import DropDownActionsMenu from "./ui/DropDownActionsMenu";
 import { UserType } from "@/types/AuthType";
+import Image from "next/image";
 
 interface TableEmployeeProps {
   employees: UserType[];
@@ -28,7 +29,6 @@ export default function TableEmployee({ employees }: TableEmployeeProps) {
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
     }
   };
-
 
   return (
     <Card>
@@ -57,9 +57,13 @@ export default function TableEmployee({ employees }: TableEmployeeProps) {
                     <div className="flex items-center space-x-3">
                       <Avatar className="h-12 w-12">
                         {employee.img ? (
-                          <AvatarImage
-                            src={employee.img}
-                            alt={`${employee.name} ${employee.lastName}`}
+                          <Image
+                            src={employee?.img ?? ""}
+                            alt={employee.name}
+                            loading="lazy"
+                            width={1000}
+                            height={1000}
+                            className="w-full h-full object-cover"
                           />
                         ) : (
                           <AvatarFallback>
@@ -113,7 +117,7 @@ export default function TableEmployee({ employees }: TableEmployeeProps) {
 
                   <TableCell>
                     <DropDownActionsMenu
-                      datID = {employee.id}
+                      datID={employee.id}
                       see="Ver Perfil"
                       edit="Editar"
                       removeEmployee="Eliminar Empleado"

@@ -19,14 +19,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
 import { ProductType } from "@/types/ProductType";
+import Image from "next/image";
 
 const getStockStatus = (stock: number) => {
-  if (stock === 0) return { label: 'Sin Stock', color: 'destructive' };
-  if (stock <= 5) return { label: 'Stock Bajo', color: 'secondary' };
-  return { label: 'En Stock', color: 'default' };
+  if (stock === 0) return { label: "Sin Stock", color: "destructive" };
+  if (stock <= 5) return { label: "Stock Bajo", color: "secondary" };
+  return { label: "En Stock", color: "default" };
 };
 
-export default function TableViewProducts({ products }: { products: ProductType[] }) {
+export default function TableViewProducts({
+  products,
+}: {
+  products: ProductType[];
+}) {
   return (
     <Card>
       <CardHeader>
@@ -37,6 +42,7 @@ export default function TableViewProducts({ products }: { products: ProductType[
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>ID producto</TableHead>
                 <TableHead>Producto</TableHead>
                 <TableHead>Categoría</TableHead>
                 <TableHead>Precio</TableHead>
@@ -52,11 +58,17 @@ export default function TableViewProducts({ products }: { products: ProductType[
                 return (
                   <TableRow key={product.id}>
                     <TableCell>
+                      {product.id}
+                    </TableCell>
+                    <TableCell>
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-muted rounded-md overflow-hidden">
-                          <img
+                          <Image
                             src={product?.img ?? ""}
                             alt={product.name}
+                            width={100}
+                            loading="lazy"
+                            height={100}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -68,9 +80,7 @@ export default function TableViewProducts({ products }: { products: ProductType[
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      {/* <Badge variant="outline">{product.category}</Badge> */}
-                    </TableCell>
+
                     <TableCell>
                       <div className="font-semibold">${product.price}</div>
                     </TableCell>
@@ -89,7 +99,9 @@ export default function TableViewProducts({ products }: { products: ProductType[
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        {new Date(product.createdAt).toLocaleDateString("es-ES")}
+                        {new Date(product.createdAt).toLocaleDateString(
+                          "es-ES"
+                        )}
                       </div>
                     </TableCell>
                     <TableCell>

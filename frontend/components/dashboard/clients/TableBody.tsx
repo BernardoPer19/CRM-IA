@@ -1,11 +1,21 @@
 import { type ClientType } from "@/types/ClientType";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ActionsDropdown from "./ActionDropDown";
+import Image from "next/image";
 
-export default function ClientsTableComponent({ clients }: { clients: ClientType[] }) {
+export default function ClientsTableComponent({
+  clients,
+}: {
+  clients: ClientType[];
+}) {
   return (
     <div className="rounded-md border overflow-x-auto">
       <Table>
@@ -24,9 +34,11 @@ export default function ClientsTableComponent({ clients }: { clients: ClientType
               <TableCell>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={`/avatars/${client.id}.jpg`} />
                     <AvatarFallback>
-                      {client.name.split(" ").map((n) => n[0]).join("")}
+                      {client.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -39,7 +51,9 @@ export default function ClientsTableComponent({ clients }: { clients: ClientType
               </TableCell>
               <TableCell>
                 <div>{client.email}</div>
-                <div className="text-sm text-muted-foreground">{client.phone}</div>
+                <div className="text-sm text-muted-foreground">
+                  {client.phone}
+                </div>
               </TableCell>
               <TableCell>{client.assignedToId}</TableCell>
               <TableCell>

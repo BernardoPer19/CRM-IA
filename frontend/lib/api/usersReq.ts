@@ -2,12 +2,9 @@ import { UserType } from "@/types/AuthType";
 import { apiRequest } from "./axios/genericRequest";
 
 
-export async function getEmployees(accessToken: string): Promise<UserType[]> {
+export async function getEmployees(): Promise<UserType[]> {
   try {
     const res = await fetch("https://crm-ia-production.up.railway.app/employee", {
-      headers: {
-        Cookie: `access_token=${accessToken}`,
-      },
       cache: "no-cache",
       next: { revalidate: 3600 },
     });
@@ -18,8 +15,8 @@ export async function getEmployees(accessToken: string): Promise<UserType[]> {
       throw new Error(`Failed to fetch employees: ${res.status} ${res.statusText}`);
     }
 
-    const data: { clients: UserType[] } = await res.json();
-    return data.clients;
+    const data: { employees: UserType[] } = await res.json();
+    return data.employees;
   } catch (error) {
     console.error("❌ Error in getEmployees:", error);
     throw error;

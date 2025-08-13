@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { UserCheck } from "lucide-react";
+import { UserType } from "@/types/AuthType";
 
-export default function StatsEmployee({ employees }: { employees: any[] }) {
+export default function StatsEmployee({ employees }: { employees: UserType[] }) {
   return (
     <div className="grid gap-4 md:grid-cols-4">
       <Card>
