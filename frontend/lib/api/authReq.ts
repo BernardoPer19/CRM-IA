@@ -6,7 +6,7 @@ export async function loginRequest(data: { email: string; password: string }) {
     method: "POST",
     url: "/auth/login",
     data,
-    withAuth: true, // Opcional, porque es true por defecto
+    withAuth: true,
   });
 }
 
