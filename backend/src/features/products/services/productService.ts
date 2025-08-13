@@ -23,7 +23,6 @@ export class ProductService {
     });
   }
 
-  // 🔵 Obtener producto por ID
   async getProductById(id: string) {
     return this.prisma.product.findUnique({
       where: { id },
@@ -33,7 +32,6 @@ export class ProductService {
     });
   }
 
-  // 🟡 Actualizar producto
   async updateProduct(
     id: string,
     data: Partial<Omit<Product, "id" | "createdAt" | "updatedAt">>
@@ -44,10 +42,25 @@ export class ProductService {
     });
   }
 
-  // 🔴 Eliminar producto
   async deleteProduct(id: string) {
-    return this.prisma.product.delete({
-      where: { id },
-    });
+    try {
+      const deletedProduct = await this.prisma.product.delete({
+        where: { id },
+        include: { category: true }, // si querés el nombre de la categoría también
+      });
+
+      return {
+        success: true,
+        data: deletedProduct,
+        message: "Producto eliminado correctamente",
+      };
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      return {
+        success: false,
+        data: null,
+        message: "No se pudo eliminar el producto",
+      };
+    }
   }
 }
