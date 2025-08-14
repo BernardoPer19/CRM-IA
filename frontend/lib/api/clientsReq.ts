@@ -4,12 +4,9 @@ import { apiRequest } from "./axios/genericRequest";
 
 
 
-export async function getClients(accessToken: string): Promise<ClientType[]> {
+export async function getClients(): Promise<ClientType[]> {
 
-  const res = await fetch("http://localhost:4000/clients", {
-    headers: {
-      Cookie: `access_token=${accessToken}`,
-    },
+  const res = await fetch("https://crm-ia-production.up.railway.app/clients", {
     cache: "no-cache",
     next: { revalidate: 3600 },
   });
