@@ -22,12 +22,21 @@ export async function getClients(accessToken: string): Promise<ClientType[]> {
   return res.json();
 }
 
-export async function getClient(id: string) {
-  return apiRequest({
-    method: "GET",
-    url: `/clients${id}`,
-    withAuth: true,
+export async function getClientById(id: string, accessToken: string): Promise<ClientType> {
+  const res = await fetch(`http://localhost:4000/clients/${id}`, {
+    headers: {
+      Cookie: `access_token=${accessToken}`,
+    },
+    cache: "no-cache", // siempre traer datos frescos
+    next: { revalidate: 3600 }, // opcional: revalidación
   });
+
+  if (!res.ok) {
+    console.error("❌ SSR Fetch failed:", await res.text());
+    throw new Error(`Failed to fetch client with id ${id}`);
+  }
+
+  return res.json();
 }
 
 export async function createClient(data: any) {

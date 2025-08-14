@@ -1,20 +1,19 @@
-// app/employees/[id]/page.tsx
+// app/clients/[id]/page.tsx
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { cookies } from "next/headers";
-import { getEmployeeById } from "@/lib/api/usersReq";
-import { UserType } from "@/types/AuthType";
-import { UserDetail } from "./UserDetail";
-
-// Forzar SSR dinámico
-export const dynamic = "force-dynamic";
+import { getClientById } from "@/lib/api/clientsReq";
+import { ClientType } from "@/types/ClientType";
+import { ClientDetail } from "./ClientDetail";
 
 // ⚠ params como Promise para cumplir PageProps de Next 15
-interface EmployeePageProps {
+interface ClientPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function EmployeeDetailPage({ params }: EmployeePageProps) {
+export const dynamic = "force-dynamic";
+
+export default async function ClientDetailPage({ params }: ClientPageProps) {
   try {
     const { id } = await params;
 
@@ -30,13 +29,13 @@ export default async function EmployeeDetailPage({ params }: EmployeePageProps) 
       );
     }
 
-    // 🔄 Fetch del empleado directamente en SSR
-    const employee: UserType | null = await getEmployeeById(id, accessToken);
+    // 🔄 Fetch del cliente directamente en SSR
+    const client: ClientType | null = await getClientById(id, accessToken);
 
-    if (!employee) {
+    if (!client) {
       return (
         <div className="text-center py-20 text-gray-500">
-          Empleado no encontrado
+          Cliente no encontrado
         </div>
       );
     }
@@ -45,21 +44,21 @@ export default async function EmployeeDetailPage({ params }: EmployeePageProps) 
       <div className="container mx-auto py-8 space-y-4">
         {/* Botón de regreso */}
         <Link
-          href="/employees"
+          href="/clients"
           className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Volver a empleados
+          <ArrowLeft className="mr-2 h-4 w-4" /> Volver a clientes
         </Link>
 
-        {/* Pasamos el objeto completo al detalle */}
-        <UserDetail user={employee} />
+        {/* Componente hijo que muestra detalle */}
+        <ClientDetail client={client} />
       </div>
     );
   } catch (error) {
-    console.error("❌ Error en EmployeeDetailPage:", error);
+    console.error("❌ Error en ClientDetailPage:", error);
     return (
       <div className="text-center py-20 text-red-500">
-        Ocurrió un error al cargar el empleado
+        Ocurrió un error al cargar el cliente
       </div>
     );
   }

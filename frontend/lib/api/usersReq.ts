@@ -26,8 +26,11 @@ export async function getEmployees(accessToken: string): Promise<UserType[]> {
   }
 }
 
-export async function getEmployeeById(id: string): Promise<UserType> {
+export async function getEmployeeById(id: string, accessToken: string): Promise<UserType> {
   const res = await fetch(`/employee/${id}`, {
+    headers: {
+      Cookie: `access_token=${accessToken}`, // Pasa el token
+    },
     cache: "no-store",
     credentials: "include",
   });
