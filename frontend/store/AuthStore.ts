@@ -6,7 +6,6 @@ interface User {
   name: string;
   email: string;
   role?: string;
-  // agrega más campos si tu user los tiene
 }
 
 interface AuthState {
@@ -20,13 +19,13 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: undefined,
-  isAuthLoading: true, // al principio asumimos que estamos cargando
+  isAuthLoading: true, 
   isAuthenticated: false,
 
   setUser: (user) =>
     set(() => ({
       user,
-      isAuthenticated: !!user, // true si hay user, false si undefined
+      isAuthenticated: !!user,
     })),
 
   setLoading: (loading) =>

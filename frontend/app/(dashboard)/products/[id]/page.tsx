@@ -1,20 +1,25 @@
+// app/products/[id]/page.tsx
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { ProductDetail } from "./ProductDetail";
-import { getProducts } from "@/lib/api/productsReq";
-import { ProductType } from "@/types/ProductType";
+import { cookies } from "next/headers";
+import { getProductById } from "@/lib/api/productsReq";
 
-// Genera rutas estáticas para build-time
-export async function generateStaticParams(): Promise<{ id: string }[]> {
-  const products: ProductType[] = await getProducts();
-  return products.map(p => ({ id: p.id.toString() }));
+interface ProductPageProps {
+  params: { id: string };
 }
 
-interface ProductPageProps { params: Promise<{ id: string }> }
+export const dynamic = "force-dynamic";
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const { id } = await params;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
 
+  if (!accessToken) throw new Error("No autorizado: Token no encontrado");
+
+  const product = await getProductById(params.id, accessToken);
+  console.log(product);
+  
   return (
     <div className="container mx-auto py-8 space-y-4">
       <Link
@@ -24,7 +29,8 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <ArrowLeft className="mr-2 h-4 w-4" /> Volver a productos
       </Link>
 
-      <ProductDetail id={id} />
+      {/* ⚠ Pasamos el objeto completo */}
+      <ProductDetail product={product} />
     </div>
   );
 }

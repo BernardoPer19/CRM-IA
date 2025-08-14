@@ -7,7 +7,8 @@ import { useAuth } from "@/hooks/useAuth";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { getUserProfile } = useAuth();
-
+  console.log(getUserProfile);
+  
   useEffect(() => {
     if (
       !getUserProfile.isLoading &&
@@ -23,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   ]);
 
   if (getUserProfile.isLoading) return <div>Cargando...</div>;
-  if (!getUserProfile.data) return null; // espera a redireccionar
+  if (!getUserProfile.data) return null; 
 
   return <>{children}</>;
 }

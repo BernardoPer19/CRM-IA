@@ -2,9 +2,12 @@ import { UserType } from "@/types/AuthType";
 import { apiRequest } from "./axios/genericRequest";
 
 
-export async function getEmployees(): Promise<UserType[]> {
+export async function getEmployees(accessToken: string): Promise<UserType[]> {
   try {
     const res = await fetch("https://crm-ia-production.up.railway.app/employee", {
+      headers: {
+        Cookie: `access_token=${accessToken}`, // Pasa el token
+      },
       cache: "no-cache",
       next: { revalidate: 3600 },
     });

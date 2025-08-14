@@ -14,7 +14,6 @@ export function iniciarClientRouter({ prisma }: { prisma: PrismaClient }): Route
     const clientService = new ClientService(prisma);
     const clientController = new ClientController(clientService);
 
-    router.use(verifyUser);
 
     router.get(
         "/",

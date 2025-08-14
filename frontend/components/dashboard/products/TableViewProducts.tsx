@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
-import { ProductType } from "@/types/ProductType";
+import { ProductDatum, ProductType } from "@/types/ProductType";
 import Image from "next/image";
 import DropProductMenu from "./DropProductMenu";
 
@@ -31,7 +31,7 @@ const getStockStatus = (stock: number) => {
 export default function TableViewProducts({
   products,
 }: {
-  products: ProductType[];
+  products: ProductDatum[];
 }) {
   return (
     <Card>

@@ -4,9 +4,12 @@ import { apiRequest } from "./axios/genericRequest";
 
 
 
-export async function getClients(): Promise<ClientType[]> {
+export async function getClients(accessToken: string): Promise<ClientType[]> {
 
   const res = await fetch("http://localhost:4000/clients", {
+    headers: {
+      Cookie: `access_token=${accessToken}`,
+    },
     cache: "no-cache",
     next: { revalidate: 3600 },
   });

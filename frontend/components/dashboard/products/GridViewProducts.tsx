@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash2, Eye, AlertTriangle } from "lucide-react";
-import { ProductType } from "@/types/ProductType";
+import { ProductDatum, ProductType } from "@/types/ProductType";
 import Image from "next/image";
 
 const getStockStatus = (stock: number) => {
@@ -22,7 +22,7 @@ const getStockStatus = (stock: number) => {
 export default function GridViewProducts({
   products,
 }: {
-  products: ProductType[];
+  products: ProductDatum[];
 }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

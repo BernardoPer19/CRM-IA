@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://crm-ia-production.up.railway.app", // cambia al endpoint base que uses
+  baseURL: "http://localhost:4000", // cambia al endpoint base que uses
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

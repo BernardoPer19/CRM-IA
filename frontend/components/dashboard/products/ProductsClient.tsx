@@ -6,16 +6,16 @@ import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Search, Filter, Grid3X3, List } from "lucide-react";
 import GridViewProducts from "./GridViewProducts";
 import TableViewProducts from "./TableViewProducts";
-import { ProductType } from "@/types/ProductType";
+import { ProductDatum, ProductType } from "@/types/ProductType";
 
 type Props = {
-  products: ProductType[];
+  products: ProductDatum[];
 };
 
 const FilterProducts = ({ products }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "table">("table");
-  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>(products);
+  const [filteredProducts, setFilteredProducts] = useState<ProductDatum[]>(products);
 
   useEffect(() => {
     const filtered = products.filter((product) =>

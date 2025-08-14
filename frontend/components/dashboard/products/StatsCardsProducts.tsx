@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ProductType } from "@/types/ProductType";
+import { ProductDatum, ProductType } from "@/types/ProductType";
 import { Package, AlertTriangle } from "lucide-react";
 
 export default function StatsCardsProducts({
   products,
 }: {
-  products: ProductType[];
+  products: ProductDatum[];
 }) {
   const totalValue = products.reduce(
     (acc, p) => acc + p.stock * p.price,

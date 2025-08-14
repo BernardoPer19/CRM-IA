@@ -13,7 +13,7 @@ type UserPayload = {
 };
 
 export async function getCurrentUser(): Promise<UserPayload | null> {
-  const token = (await cookies()).get("access_token")?.value; // CON AWAIT POR Q ES NEST 15
+  const token = (await cookies()).get("access_token")?.value; 
 
   if (!token) return null;
 

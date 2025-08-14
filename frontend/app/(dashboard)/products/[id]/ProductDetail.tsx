@@ -1,12 +1,20 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getProductById } from "@/lib/api/productsReq";
-import { ProductType } from "@/types/ProductType";
+import { ProductDatum } from "@/types/ProductType";
+import Image from "next/image";
 
-interface ProductDetailProps { id: string }
+interface ProductDetailProps {
+  product: ProductDatum;
+}
 
-export async function ProductDetail({ id }: ProductDetailProps) {
-  const product: ProductType = await getProductById(id);
+export function ProductDetail({ product }: ProductDetailProps) {
+  if (!product) {
+    return (
+      <div className="text-center py-20 text-gray-500">
+        Producto no encontrado
+      </div>
+    );
+  }
 
   const getStockBadgeColor = (stock: number) => {
     if (stock === 0) return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
@@ -17,18 +25,22 @@ export async function ProductDetail({ id }: ProductDetailProps) {
   return (
     <Card className="max-w-5xl mx-auto p-6">
       <CardHeader>
-        <CardTitle className="text-3xl md:text-4xl font-bold">Detalle del Producto</CardTitle>
+        <CardTitle className="text-3xl md:text-4xl font-bold">
+          Detalle del Producto
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-8">
-        {/* Imagen + Info principal */}
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Imagen grande */}
+          {/* Imagen */}
           <div className="flex-shrink-0 w-full md:w-96 h-96 rounded-lg overflow-hidden shadow-lg">
             {product.img ? (
-              <img
+              <Image
                 src={product.img}
                 alt={product.name}
+                width={1000}
+                height={1000}
                 className="w-full h-full object-cover"
+                priority
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500 text-xl">
@@ -37,7 +49,7 @@ export async function ProductDetail({ id }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Información del producto */}
+          {/* Información */}
           <div className="flex-1 flex flex-col justify-between space-y-4">
             <div className="space-y-2">
               <h2 className="text-4xl font-extrabold">{product.name}</h2>
@@ -46,7 +58,9 @@ export async function ProductDetail({ id }: ProductDetailProps) {
               </Badge>
               <p className="text-2xl font-semibold mt-2">Precio: ${product.price}</p>
               {product.category?.name && (
-                <p className="text-lg text-muted-foreground">Categoría: {product.category.name}</p>
+                <p className="text-lg text-muted-foreground">
+                  Categoría: {product.category.name}
+                </p>
               )}
             </div>
 
