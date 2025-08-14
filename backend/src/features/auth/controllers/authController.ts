@@ -2,9 +2,7 @@ import { catchAsync } from "../../../middlewares/catchAsync.js";
 import { validateLogin, validateRegister } from "../schemas/authSchema.js";
 import type { AuthServices } from "../services/authServices.js";
 import { createToken, hashPassword } from "../utils/authUtils.js";
-import { options } from "../utils/cookiesOptions.js";
-;
-
+import { getCookieOptions } from "../utils/cookiesOptions.js";
 export class AuthController {
   constructor(private readonly service: AuthServices) { }
 
@@ -45,7 +43,7 @@ export class AuthController {
       lastName: user.lastname,
     });
 
-    res.cookie("access_token", token, options).json({
+    res.cookie("access_token", token, getCookieOptions()).json({
       message: "¡Sesión iniciada correctamente!",
       user,
     });

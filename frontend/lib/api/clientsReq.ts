@@ -6,7 +6,7 @@ import { apiRequest } from "./axios/genericRequest";
 
 export async function getClients(): Promise<ClientType[]> {
 
-  const res = await fetch("https://crm-ia-production.up.railway.app/clients", {
+  const res = await fetch("http://localhost:4000/clients", {
     cache: "no-cache",
     next: { revalidate: 3600 },
   });

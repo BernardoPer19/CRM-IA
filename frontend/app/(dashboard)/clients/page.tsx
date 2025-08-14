@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ClientsPage() {
 
-  const clients = await getClients(); // SSR fetch
+  const clients = await getClients();
 
   return (
     <div className="p-6 space-y-6">

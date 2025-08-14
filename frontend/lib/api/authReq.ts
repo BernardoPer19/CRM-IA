@@ -3,7 +3,7 @@ import { RegisterTypeSchema } from '@/components/forms/schemas/RegisterSchema';
 
 function normalizeAuthResponse(res: any) {
   return {
-    success: res?.success ?? true, // Por defecto true si no viene
+    success: res?.success ?? true, 
     message: res?.message ?? "",
     user: res?.user ?? null
   };

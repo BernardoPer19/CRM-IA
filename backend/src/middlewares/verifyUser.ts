@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import type { RegisterUser } from "../features/auth/types/interfaces/userInterface.js";
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
 
@@ -19,7 +18,7 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
             return
         }
 
-        const decoded = jwt.verify(token, jwtSecret) as RegisterUser
+        const decoded = jwt.verify(token, jwtSecret) 
 
         req.user = decoded;
 
