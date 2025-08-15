@@ -1,12 +1,7 @@
 // store/AuthStore.ts
+import { User } from '@/types/AuthType';
 import { create } from 'zustand';
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role?: string;
-}
 
 interface AuthState {
   user?: User;

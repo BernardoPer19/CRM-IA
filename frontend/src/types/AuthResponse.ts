@@ -4,9 +4,9 @@ interface AuthResponse {
     id: string;
     email: string;
     phone: number;
-    createdAt: string;  // o Date, según cómo manejes
+    createdAt: string; 
     name: string;
     lastname: string;
-    role: "ADMIN" | "EMPLOYEE"; // según tus roles
+    role: "ADMIN" | "EMPLEADO"; 
   };
 }

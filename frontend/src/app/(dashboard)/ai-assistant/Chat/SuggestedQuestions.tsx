@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Users, Package, TrendingUp } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
 
 const suggestedQuestions = [
   {
@@ -35,21 +34,10 @@ const suggestedQuestions = [
 ];
 
 interface Props {
-  messages: any[];
-  setMessages: Dispatch<SetStateAction<any[]>>;
+  setInputValue: (value: string) => void;
 }
 
-export function SuggestedQuestions({ messages, setMessages }: Props) {
-  const handleClick = (question: string) => {
-    const newMessage = {
-      id: messages.length + 1,
-      content: question,
-      isBot: false,
-      timestamp: new Date(),
-    };
-    setMessages([...messages, newMessage]);
-  };
-
+export function SuggestedQuestions({ setInputValue }: Props) {
   return (
     <div className="space-y-4 bg-card p-4 rounded-lg border">
       {suggestedQuestions.map((category) => (
@@ -58,13 +46,13 @@ export function SuggestedQuestions({ messages, setMessages }: Props) {
             <category.icon className="h-4 w-4" />
             <span className="font-medium text-sm">{category.category}</span>
           </div>
-          <div className="">
+          <div className="mt-2 space-y-1">
             {category.questions.map((question, index) => (
               <Button
                 key={index}
                 variant="ghost"
                 className="w-full text-left h-auto p-2 text-xs"
-                onClick={() => handleClick(question)}
+                onClick={() => setInputValue(question)}
               >
                 {question}
               </Button>

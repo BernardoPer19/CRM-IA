@@ -1,4 +1,3 @@
-// hooks/useMessages.ts
 import { getMessages, sendMessage } from "@/lib/api/messageReq";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { MessageType } from "@/types/MessagesType";
@@ -8,13 +7,13 @@ export function useMessages() {
 
   const { data, isLoading, error } = useQuery<MessageType[]>({
     queryKey: ["messages"],
-    queryFn: async () => (await getMessages()).data,
-    staleTime: Infinity,
+    queryFn: async (): Promise<MessageType[]> => (await getMessages()).data,
+    refetchInterval: 2000, // cada 2 segundos
   });
-
+  
   const mutation = useMutation({
-    mutationFn: sendMessage,
-    onMutate: async (newMessage: Partial<MessageType>) => {
+    mutationFn: (newMessage: Pick<MessageType, "contenido" | "emisor">) => sendMessage(newMessage),
+    onMutate: async (newMessage) => {
       await queryClient.cancelQueries({ queryKey: ["messages"] });
 
       const prevMessages = queryClient.getQueryData<MessageType[]>(["messages"]);
@@ -26,7 +25,6 @@ export function useMessages() {
             ...newMessage,
             id: `temp-${Date.now()}`,
             createdAt: new Date().toISOString(),
-            emisor: newMessage.emisor ?? "ADMIN",
           } as MessageType,
         ]);
       }
@@ -38,8 +36,7 @@ export function useMessages() {
         queryClient.setQueryData(["messages"], context.prevMessages);
       }
     },
-    onSuccess: (response, newMessage) => {
-      // Reemplaza el mensaje temporal con el real del backend
+    onSuccess: (response) => {
       const current = queryClient.getQueryData<MessageType[]>(["messages"]) || [];
       queryClient.setQueryData<MessageType[]>(["messages"], [
         ...current.filter(msg => !msg.id.startsWith("temp-")),

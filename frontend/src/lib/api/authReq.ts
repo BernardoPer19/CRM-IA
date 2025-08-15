@@ -3,7 +3,7 @@ import { RegisterTypeSchema } from '@/components/forms/schemas/RegisterSchema';
 
 function normalizeAuthResponse(res: any) {
   return {
-    success: res?.success ?? true, 
+    success: res?.success ?? true,
     message: res?.message ?? "",
     user: res?.user ?? null
   };
@@ -33,10 +33,11 @@ export async function logoutRequest() {
   return apiRequest({
     method: "POST",
     url: "/auth/logout",
+    withAuth: true,
   });
 }
 
-export async function getCurrentUser() {
+export async function getCurrentUserData() {
   const res = await apiRequest({
     method: "POST",
     url: "/auth/profile",
@@ -46,12 +47,11 @@ export async function getCurrentUser() {
 }
 
 
-export async function getCurrentUserData() {
+export async function getCurrentUser() {
   const res = await apiRequest({
-    method: "get",
+    method: "GET",
     url: "/auth/profile",
     withAuth: true,
   });
   return normalizeAuthResponse(res);
 }
-

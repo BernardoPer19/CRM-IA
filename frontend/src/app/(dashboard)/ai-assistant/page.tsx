@@ -4,26 +4,16 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Bot, Lightbulb } from "lucide-react";
 import { Chat } from "./Chat/ChatBot";
-import { SuggestedQuestions } from "./Chat/SuggestedQuestions";
 import { Capabilities } from "./Chat/Capabilities";
 import { useMessages } from "@/hooks/useMessage";
-import { useAuth } from "@/hooks/useAuth";
+import { SuggestedQuestions } from "./Chat/SuggestedQuestions";
 
 export default function AiAssistantPage() {
-  const [messagess, setMessages] = useState([
-    {
-      id: 1,
-      content:
-        "¡Hola! Soy tu asistente de IA especializado en datos de CRM. Tengo acceso completo a toda la información de tu negocio: clientes, empleados, productos, ventas y más. ¿En qué puedo ayudarte hoy?",
-      isBot: true,
-      timestamp: new Date(),
-    },
-  ]);
-  const {messages} = useMessages()
-  const {getUserProfile} = useAuth()
-  console.log(messages);
-  console.log(getUserProfile);
-  
+  const { messages, isLoading } = useMessages();
+
+  // Estado compartido del input
+  const [inputValue, setInputValue] = useState("");
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -44,9 +34,16 @@ export default function AiAssistantPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-4">
-        <Chat messages={messages} setMessages={setMessages} />
+        {!isLoading ? (
+          // Pasamos inputValue y setInputValue al Chat
+          <Chat messages={messages} inputValue={inputValue} setInputValue={setInputValue} />
+        ) : (
+          <p>Cargando mensajes...</p>
+        )}
+
         <div className="space-y-4">
-          <SuggestedQuestions setMessages={setMessages} messages={messages} />
+          {/* Pasamos setInputValue a SuggestedQuestions */}
+          <SuggestedQuestions setInputValue={setInputValue} />
           <Capabilities />
         </div>
       </div>

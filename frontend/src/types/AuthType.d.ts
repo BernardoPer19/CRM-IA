@@ -1,7 +1,7 @@
 import { ClientType } from "./ClientType";
 
 
-export type Role = "ADMIN" | "EMPLOYEE"
+export type Role = "ADMIN" | "EMPLEADO"
 
 export interface UserType {
   id: string;
@@ -46,7 +46,7 @@ export interface User {
     img:      string;
     lastName: string;
     phone:    number;
-    role:     string;
+    role:     Role;
 }
 
 

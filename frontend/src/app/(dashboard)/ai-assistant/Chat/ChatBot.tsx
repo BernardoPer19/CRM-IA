@@ -7,57 +7,39 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Send, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { useMessages } from "@/hooks/useMessage";
 import { MessageType } from "@/types/MessagesType";
-
-interface Message {
-  id: number;
-  content: string;
-  isBot: boolean;
-  timestamp: Date;
-}
+import { useAuthStore } from "@/store/AuthStore";
+import { Emisor } from "../../../../types/Enum/MessageEnum";
 
 interface ChatProps {
   messages: MessageType[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  inputValue: string;
+  setInputValue: (value: string) => void;
 }
 
-export function Chat({ messages, setMessages }: ChatProps) {
-  const [inputValue, setInputValue] = useState("");
-
-  // 🔹 Ref del dummy div al final de los mensajes
+export function Chat({ messages, inputValue, setInputValue }: ChatProps) {
+  const { sendMessage } = useMessages();
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const user = useAuthStore((state) => state.user);
+  
+  const handleSendMessage = () => {
+    if (!inputValue.trim()) return;
 
-  const handleSendMessage = (message?: string) => {
-    const messageToSend = message || inputValue;
-    if (!messageToSend.trim()) return;
+    sendMessage({
+      contenido: inputValue,
+      emisor: user?.role,
+    });
 
-    const newMessage: Message = {
-      id: messages.length + 1,
-      content: messageToSend,
-      isBot: false,
-      timestamp: new Date(),
-    };
-
-    setMessages([...messages, newMessage]);
     setInputValue("");
-
-    // Simular respuesta del bot
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: messages.length + 2,
-        content: `Perfecto, estoy analizando tu consulta: "${messageToSend}".`,
-        isBot: true,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1500);
   };
 
-  // 🔹 Scroll automático hacia el final siempre que haya un nuevo mensaje
+
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages?.length]);
 
   return (
     <Card className="lg:col-span-3 h-[600px] flex flex-col">
@@ -67,20 +49,18 @@ export function Chat({ messages, setMessages }: ChatProps) {
           <span>Chat con IA</span>
         </CardTitle>
       </CardHeader>
-
-      <CardContent className="flex flex-col flex-1 p-0 overflow-hidden">
-        {/* Scroll interno solo para los mensajes */}
-        <ScrollArea className="flex-1 px-4 py-3">
-          <div className="flex flex-col space-y-4">
+      <CardContent className="flex-1 flex flex-col overflow-hidden">
+        <ScrollArea className="flex-1 pr-4 mb-4 max-h-full" ref={scrollRef}>
+          <div className="space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={cn(
                   "flex space-x-3",
-                  message.isBot ? "justify-start" : "justify-end"
+                  message.emisor === "IA" ? "justify-start" : "justify-end"
                 )}
               >
-                {message.isBot && (
+                {message.emisor === "IA" && (
                   <Avatar className="h-10 w-10">
                     <AvatarFallback className="bg-accent text-accent-foreground">
                       <Bot className="h-5 w-5" />
@@ -89,41 +69,40 @@ export function Chat({ messages, setMessages }: ChatProps) {
                 )}
                 <div
                   className={cn(
-                    "max-w-[80%] rounded-lg px-4 py-3 break-words",
-                    message.isBot
+                    "max-w-[80%] rounded-lg px-4 py-3",
+                    message.emisor === "IA"
                       ? "bg-muted text-muted-foreground"
                       : "bg-primary text-primary-foreground"
                   )}
                 >
-                  <p className="text-sm leading-relaxed">{message.content}</p>
+                  <p className="text-sm leading-relaxed">{message.contenido}</p>
                   <p className="text-xs opacity-70 mt-2">
-                    {message.timestamp.toLocaleTimeString("es-ES", {
+                    {new Date(message.createdAt).toLocaleTimeString("es-ES", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </p>
                 </div>
-                {!message.isBot && (
+                {message.emisor !== "IA" && (
                   <Avatar className="h-10 w-10">
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
                 )}
               </div>
             ))}
-            {/* 🔹 Dummy div al final para scroll */}
             <div ref={bottomRef} />
           </div>
         </ScrollArea>
 
-        <div className="flex space-x-2 p-4 border-t">
+        <div className="flex space-x-2 pt-4 border-t">
           <Input
             placeholder="Hazme cualquier pregunta sobre tus datos..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             className="flex-1"
           />
-          <Button onClick={() => handleSendMessage()}>
+          <Button onClick={handleSendMessage}>
             <Send className="h-4 w-4" />
           </Button>
         </div>

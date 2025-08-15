@@ -1,5 +1,5 @@
 // utils/api.ts
-import axiosClient from "@/lib/utils/AxiosClient";
+import axiosClient from "@/lib/AxiosClient";
 import { AxiosError, type AxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 

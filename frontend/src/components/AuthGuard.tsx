@@ -6,24 +6,20 @@ import { useAuth } from "@/hooks/useAuth";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { getUserProfile } = useAuth();
-  
+  const { getUserProfile, isAuthenticated, isAuthLoading } = useAuth();
+
   useEffect(() => {
-    if (
-      !getUserProfile.isLoading &&
-      (!getUserProfile.data || getUserProfile.isError)
-    ) {
-      router.push("/auth/login");
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace("/auth/login");
     }
-  }, [
-    getUserProfile.data,
-    getUserProfile.isLoading,
-    getUserProfile.isError,
-    router,
-  ]);
+  }, [isAuthLoading, isAuthenticated, router]);
 
-  if (getUserProfile.isLoading) return <div>Cargando...</div>;
-  if (!getUserProfile.data) return null; 
+  if (isAuthLoading) {
+     <div>Cargando...</div>;
+     router.push("/auth/login")
+  }
+  if (!isAuthenticated) return null;
 
+  // 🔹 Usuario válido, renderiza children
   return <>{children}</>;
 }

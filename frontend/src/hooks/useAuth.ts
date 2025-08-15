@@ -65,8 +65,9 @@ export const useAuth = () => {
   const logout = useMutation({
     mutationFn: logoutRequest,
     onSettled: () => {
-      setUser(undefined);
+      queryClient.cancelQueries({ queryKey: ["currentUser"] });
       queryClient.clear();
+      setUser(undefined);      
       setLoading(false);
       router.replace("/auth/login");
     },
@@ -80,23 +81,24 @@ export const useAuth = () => {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
     retry: false,
+    enabled: true, // 🔹 importante
   });
 
   // Manejar expiración de sesión (401)
   useEffect(() => {
-    if (getUserProfile.isError) {
-      const status = (getUserProfile.error as any)?.status;
-      if (status === 401) {
-        setUser(undefined);
-        queryClient.clear();
-        setLoading(false);
-        router.replace("/auth/login");
-      }
+    const status = (getUserProfile.error as any)?.response?.status;
+
+    if (getUserProfile.isError && status === 401) {
+      setUser(undefined);
+      queryClient.clear();
+      setLoading(false);
+      router.replace("/auth/login");
     } else if (getUserProfile.data?.user) {
       setUser(getUserProfile.data.user);
       setLoading(false);
     }
-  }, [getUserProfile.isError, getUserProfile.data, getUserProfile.error, queryClient, router, setUser, setLoading]);
+  }, [getUserProfile, queryClient, router, setUser, setLoading]);
+
 
   return {
     register,
