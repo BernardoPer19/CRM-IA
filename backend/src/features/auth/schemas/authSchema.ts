@@ -7,7 +7,7 @@ export const RegisterSchema = z.object({
   img: z.string().url("Debe ser una URL válida").optional().or(z.literal("")),
   email: z.string().email(),
   password: z.string().min(6),
-  role: z.enum(['ADMIN', 'EMPLOYEE']).optional(),
+  role: z.enum(['ADMIN', 'EMPLOYEE', "IA"]).optional(),
 });
 
 export type RegisterTypeSchema = z.infer<typeof RegisterSchema>;
