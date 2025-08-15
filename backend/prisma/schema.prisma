@@ -77,6 +77,6 @@ enum Role {
 
 enum Emisor {
   ADMIN
-  EMPLEADO
+  EMPLOYEE
   IA
 }

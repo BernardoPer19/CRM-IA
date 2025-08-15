@@ -6,9 +6,6 @@ import { MessageController } from "../controllers/messageController.js";
 import { verifyUser } from "../../../middlewares/verifyUser.js";
 import { permissionRoles } from "../../../middlewares/permissionRoles.js";
 
-/**
- * Crea una instancia del router de mensajes usando DI (patrón factory)
- */
 export function iniciarMessagerRouter(prisma: PrismaClient): Router {
     const messageService = new MessageService(prisma);
     const messageController = new MessageController(messageService);
