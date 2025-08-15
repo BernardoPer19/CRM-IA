@@ -47,12 +47,11 @@ export class AuthController {
     // Siempre para frontend
     res.cookie("access_token", token, getCookieOptions());
 
-    // Si es IA → devolver token en body (para n8n)
     if (user.role === "IA") {
       return res.json({
         message: "¡Sesión iniciada correctamente!",
-        access_token: token, // para Bearer
-        expires_in: 3600, // opcional
+        access_token: token, 
+        expires_in: 3600, 
         user: {
           id: user.id,
           name: user.name,

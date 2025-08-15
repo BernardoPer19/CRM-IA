@@ -47,7 +47,7 @@ export class MessageService {
 
   public async getAllMessages(): Promise<Message[]> {
     return this.prisma.message.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     });
   }
 }
