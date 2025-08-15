@@ -18,7 +18,6 @@ export default async function EmployeeDetailPage({ params }: EmployeePageProps) 
   try {
     const { id } = await params;
 
-    // 🔑 Obtener token desde cookies si es necesario
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("access_token")?.value;
 
@@ -30,7 +29,6 @@ export default async function EmployeeDetailPage({ params }: EmployeePageProps) 
       );
     }
 
-    // 🔄 Fetch del empleado directamente en SSR
     const employee: UserType | null = await getEmployeeById(id, accessToken);
 
     if (!employee) {
@@ -43,15 +41,12 @@ export default async function EmployeeDetailPage({ params }: EmployeePageProps) 
 
     return (
       <div className="container mx-auto py-8 space-y-4">
-        {/* Botón de regreso */}
         <Link
           href="/employees"
           className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Volver a empleados
         </Link>
-
-        {/* Pasamos el objeto completo al detalle */}
         <UserDetail user={employee} />
       </div>
     );

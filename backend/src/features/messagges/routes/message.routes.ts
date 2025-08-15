@@ -12,8 +12,27 @@ export function iniciarMessagerRouter(prisma: PrismaClient): Router {
 
     const router = Router();
 
-    router.post("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE","IA"), messageController.sendMessage);
-    router.get("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE","IA"), messageController.getMessages);
+    router.post(
+        "/",
+        verifyUser,
+        permissionRoles("ADMIN", "EMPLOYEE", "IA"),
+        messageController.sendMessage
+    );
+
+    router.get(
+        "/",
+        verifyUser,
+        permissionRoles("ADMIN", "EMPLOYEE", "IA"),
+        messageController.getMessages
+    );
+
+    // 🔹 Nueva ruta SSE para escuchar mensajes en tiempo real
+    router.get(
+        "/stream",
+        verifyUser,
+        permissionRoles("ADMIN", "EMPLOYEE", "IA"),
+        messageController.streamMessages
+    );
 
     return router;
 }

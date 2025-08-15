@@ -14,9 +14,12 @@ export function UserDetail({ user }: UserDetailProps) {
   const getRoleColor = (role: UserType["role"]) => {
     const map = {
       ADMIN: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-      EMPLOYEE: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+      EMPLEADO: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
     };
-    return map[role] ?? "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+    return (
+      map[role] ??
+      "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
+    );
   };
 
   return (
@@ -70,7 +73,9 @@ export function UserDetail({ user }: UserDetailProps) {
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Última actualización</p>
+            <p className="text-sm text-muted-foreground">
+              Última actualización
+            </p>
             <p className="text-lg font-semibold">
               {new Date(user.updatedAt).toLocaleDateString("es-ES")}
             </p>
