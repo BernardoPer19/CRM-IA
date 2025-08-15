@@ -18,7 +18,6 @@ export interface UserType {
   updatedAt: Date;
 }
 
-
 export interface logintype {
     email: string;
     password: string;
@@ -33,3 +32,22 @@ export interface registerType {
     email: string
     password: string
 }
+
+
+export interface UserAppType {
+    success: boolean;
+    user:    User;
+}
+
+export interface User {
+    name:     string;
+    email:    string;
+    password: string;
+    img:      string;
+    lastName: string;
+    phone:    number;
+    role:     string;
+}
+
+
+

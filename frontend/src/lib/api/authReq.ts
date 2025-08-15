@@ -44,3 +44,14 @@ export async function getCurrentUser() {
   });
   return normalizeAuthResponse(res);
 }
+
+
+export async function getCurrentUserData() {
+  const res = await apiRequest({
+    method: "get",
+    url: "/auth/profile",
+    withAuth: true,
+  });
+  return normalizeAuthResponse(res);
+}
+

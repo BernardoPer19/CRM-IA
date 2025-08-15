@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 
 export default function ActionsDropdown({ clientId }: { clientId: string }) {
+
+  
+
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

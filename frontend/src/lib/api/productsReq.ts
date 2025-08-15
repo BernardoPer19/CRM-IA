@@ -6,7 +6,7 @@ import { ProductDatum, ProductType } from "@/types/ProductType";
 
 export async function getProducts(accessToken: string): Promise<ProductDatum[]> {
   try {
-    const res = await fetch("http://localhost:4000/products/admin", {
+    const res = await fetch("https://crm-ia-production.up.railway.app/products/admin", {
       headers: {
         Cookie: `access_token=${accessToken}`, 
       },
