@@ -12,8 +12,8 @@ export function iniciarMessagerRouter(prisma: PrismaClient): Router {
 
     const router = Router();
 
-    router.post("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE"), messageController.sendMessage);
-    router.get("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE"), messageController.getMessages);
+    router.post("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE","IA"), messageController.sendMessage);
+    router.get("/", verifyUser, permissionRoles("ADMIN", "EMPLOYEE","IA"), messageController.getMessages);
 
     return router;
 }
