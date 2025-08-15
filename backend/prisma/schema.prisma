@@ -73,6 +73,7 @@ model Category {
 enum Role {
   ADMIN
   EMPLOYEE
+  IA
 }
 
 enum Emisor {

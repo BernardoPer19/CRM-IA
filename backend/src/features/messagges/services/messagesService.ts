@@ -11,7 +11,7 @@ export class MessageService {
     try {
       const messageData: Prisma.MessageCreateInput = {
         contenido: data.contenido,
-        emisor: data.emisor, // ✅ aquí ya es dinámico
+        emisor: data.emisor, 
         ...(data.creadoPorId && {
           creadoPor: {
             connect: { id: data.creadoPorId },
@@ -23,7 +23,8 @@ export class MessageService {
       const savedMessage = await this.prisma.message.create({
         data: messageData,
       });
-
+      console.log(savedMessage);
+      
       try {
 
         if (savedMessage.emisor === "ADMIN" || savedMessage.emisor === "EMPLOYEE") {

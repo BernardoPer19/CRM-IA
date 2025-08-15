@@ -91,6 +91,20 @@ export async function main() {
     })
   );
 
+  const iaUser = await prisma.user.create({
+    data: {
+      name: "Bot",
+      lastName: "IA",
+      phone: 70000000,
+      img: "https://i.pravatar.cc/150?img=3", // avatar fijo
+      email: "bot@example.com",
+      password: await bcrypt.hash("123123", 10),
+      role: Role.IA,
+    },
+  });
+
+  console.log(`🤖 Usuario IA creado: ${iaUser.email} (rol IA)`);
+
   console.log("📦 30 Productos creados");
 
   console.log("✅ Seed ejecutado con éxito 🚀");

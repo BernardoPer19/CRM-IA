@@ -44,12 +44,34 @@ export class AuthController {
       lastName: user.lastname,
     });
 
-    console.log("EL TOKEN:", token);
-    res.cookie("access_token", token, getCookieOptions()).json({
+    // Siempre para frontend
+    res.cookie("access_token", token, getCookieOptions());
+
+    // Si es IA → devolver token en body (para n8n)
+    if (user.role === "IA") {
+      return res.json({
+        message: "¡Sesión iniciada correctamente!",
+        access_token: token, // para Bearer
+        expires_in: 3600, // opcional
+        user: {
+          id: user.id,
+          name: user.name,
+          role: user.role
+        }
+      });
+    }
+
+    // Otros roles → sin token en body
+    res.json({
       message: "¡Sesión iniciada correctamente!",
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        role: user.role
+      }
     });
   });
+
 
   public logout = catchAsync(async (_req, res, _next) => {
     res.clearCookie("access_token").status(200).json({
