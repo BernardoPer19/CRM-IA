@@ -14,10 +14,10 @@ export const iniciarAuthRouter = ({
 
     const router = Router();
 
-    router.post("/register", authController.register);
     router.post("/login", authController.login);
     router.post("/logout", authController.logout);
-    router.post("/profile", verifyUser, authController.getProfile);
-
+    router.get("/profile", verifyUser, authController.getProfileData);
+    router.post("/register", authController.register);
+    router.post("/profileData", verifyUser, authController.getProfile);
     return router;
 };

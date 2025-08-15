@@ -16,10 +16,10 @@ export function iniciarEmployeeRouter({ prisma }: { prisma: PrismaClient }): Rou
 
 
     router.get(
-        "/", employeeController.getAllEmployees
+        "/", verifyUser, employeeController.getAllEmployees
     );
     router.get(
-        "/:id", 
+        "/:id", verifyUser,
         employeeController.getEmployeesById
     );
 

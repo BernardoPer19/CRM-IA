@@ -1,4 +1,5 @@
 import { catchAsync } from "../../../middlewares/catchAsync.js";
+import { UserType } from "../../../types/authType.js";
 import { validateLogin, validateRegister } from "../schemas/authSchema.js";
 import type { AuthServices } from "../services/authServices.js";
 import { createToken, hashPassword } from "../utils/authUtils.js";
@@ -65,6 +66,21 @@ export class AuthController {
     const userId = req.user.id;
     console.log(userId);
     const profile = await this.service.getUserProfile(userId);
+    res.status(200).json({ success: true, user: profile });
+  });
+
+
+  public getProfileData = catchAsync(async (req, res, _next) => {
+    const user = req.user as UserType;
+
+    if (!user) {
+      res.status(401).json({ message: "Usuario no autenticado" });
+      return
+    }
+
+
+    res.status(200).json(user);
+    const profile = await this.service.getUserProfile(user.id);
     res.status(200).json({ success: true, user: profile });
   });
 
