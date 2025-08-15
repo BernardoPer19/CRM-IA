@@ -26,7 +26,7 @@ export class MessageService {
 
       try {
 
-        if (savedMessage.emisor === "ADMIN" || savedMessage.emisor === "EMPLEADO") {
+        if (savedMessage.emisor === "ADMIN" || savedMessage.emisor === "EMPLOYEE") {
           try {
             await sendMessageToN8n(savedMessage);
           } catch (n8nError) {
